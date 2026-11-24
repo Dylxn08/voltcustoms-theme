@@ -1,0 +1,77 @@
+{%- comment -%}
+  One bike card, used by the Build Your Setup section (as a choice) and the Shop by bike
+  section (as a link into the builder).
+
+  Accepts:
+  - block {Block} a "bike" block (title, key, models, image, outline, badge)
+  - index {Number} position, shown as 01, 02 ...
+  - link {String} optional. When set, the card is a link to this URL with ?bike=<key> added.
+  - input_name {String} radio group name when the card is a choice (no link)
+  - meta {String} optional text under the name, e.g. "16 parts fit"
+
+  Photo: the block's own photo, else Theme settings > Bike photos for this bike's key,
+  else a line drawing.
+{%- endcomment -%}
+{%- liquid
+  assign bike_key = block.settings.key | default: block.settings.title | handleize | remove: '-' | downcase
+  assign photo = block.settings.image
+  if photo == blank
+    assign photo_setting = 'bike_photo_' | append: bike_key
+    assign photo = settings[photo_setting]
+  endif
+-%}
+{%- capture card -%}
+  <span class="vb-bike__card">
+    {%- if photo != blank -%}
+      {%- assign focal = 'object-position:' | append: photo.presentation.focal_point -%}
+      {{
+        photo
+        | image_url: width: 900
+        | image_tag:
+          class: 'vb-bike__img',
+          loading: 'lazy',
+          widths: '360, 540, 720, 900',
+          sizes: '(min-width: 990px) 300px, (min-width: 750px) 33vw, 64vw',
+          alt: '',
+          style: focal
+      }}
+    {%- else -%}
+      {%- render 'volt-bike-outline', style: block.settings.outline -%}
+    {%- endif -%}
+    <span class="vb-bike__shade" aria-hidden="true"></span>
+    <span class="vb-bike__num" aria-hidden="true">{% if index < 10 %}0{% endif %}{{ index }}</span>
+    {%- if block.settings.badge != blank -%}
+      <span class="vb-bike__badge">{{ block.settings.badge | escape }}</span>
+    {%- endif -%}
+    <span class="vb-bike__check" aria-hidden="true">
+      {%- if link != blank -%}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      {%- else -%}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+      {%- endif -%}
+    </span>
+    <span class="vb-bike__text">
+      {%- if block.settings.models != blank -%}
+        <span class="vb-bike__models">{{ block.settings.models | escape }}</span>
+      {%- endif -%}
+      <span class="vb-bike__name">{{ block.settings.title | escape }}</span>
+      <span class="vb-bike__meta" data-vb-bike-meta>{{ meta | escape }}</span>
+    </span>
+  </span>
+{%- endcapture -%}
+{%- if link != blank -%}
+  {%- liquid
+    assign joiner = '?'
+    if link contains '?'
+      assign joiner = '&'
+    endif
+  -%}
+  <a class="vb-bike vb-bike--link" href="{{ link }}{{ joiner }}bike={{ bike_key | url_encode }}" {{ block.shopify_attributes }}>
+    {{- card -}}
+  </a>
+{%- else -%}
+  <label class="vb-bike" {{ block.shopify_attributes }}>
+    <input type="radio" name="{{ input_name }}" value="{{ bike_key }}" data-vb-bike data-title="{{ block.settings.title | escape }}">
+    {{- card -}}
+  </label>
+{%- endif -%}
