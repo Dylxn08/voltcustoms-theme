@@ -1,0 +1,242 @@
+{%- comment -%}
+  Build Your Setup: pick a bike, a light and add-ons, then add everything to the cart in one request.
+
+  Edit everything in the theme editor:
+  - "Bike" blocks are step 1. The bike name is also its key for fitment.
+  - "Light" blocks (step 2, pick one) and "Add-on" blocks (step 3, pick any) each point at a product.
+    "Fits these bikes" takes bike names separated by commas, e.g. "Super73, Ridstar, Macfox".
+    Leave it empty and the product shows for every bike.
+  - The Black Friday banner is in Theme settings > Black Friday banner.
+
+  Prices, images and stock are read from the live products. This section never changes prices:
+  discounts are applied by Shopify in the cart and at checkout.
+{%- endcomment -%}
+{{ 'volt-builder.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'volt-builder.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign bikes = section.blocks | where: 'type', 'bike'
+  assign lights = section.blocks | where: 'type', 'light'
+  assign addons = section.blocks | where: 'type', 'addon'
+  assign heading_tag = 'h2'
+  if section.settings.heading_is_h1
+    assign heading_tag = 'h1'
+  endif
+-%}
+
+<section
+  class="vb"
+  id="vb-{{ section.id }}"
+  data-volt-builder
+  data-currency="{{ cart.currency.iso_code }}"
+  data-locale="{{ request.locale.iso_code }}"
+  data-cart-url="{{ routes.cart_url }}"
+  data-cart-add-url="{{ routes.cart_add_url }}"
+  data-msg-need-bike="{{ section.settings.msg_need_bike | escape }}"
+  data-msg-need-item="{{ section.settings.msg_need_item | escape }}"
+  data-msg-adding="{{ section.settings.msg_adding | escape }}"
+  data-msg-added="{{ section.settings.msg_added | escape }}"
+  data-msg-error="{{ section.settings.msg_error | escape }}"
+  data-msg-items="{{ section.settings.summary_toggle | escape }}"
+  data-msg-low="{{ section.settings.low_stock_text | escape }}"
+  data-msg-sold-out="{{ 'products.product.sold_out' | t | escape }}"
+>
+  {%- if settings.bf_banner_enabled and settings.bf_banner_text != blank -%}
+    <div class="vb-bf">
+      <p>{{ settings.bf_banner_text | escape }}</p>
+    </div>
+  {%- endif -%}
+
+  <div class="vb__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="vs-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    <{{ heading_tag }} class="vs-h2 vb__title">{{ section.settings.heading | escape }}</{{ heading_tag }}>
+    {%- if section.settings.subheading != blank -%}
+      <p class="vb__sub">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="vb__layout">
+    <form class="vb__steps" action="{{ routes.cart_add_url }}" method="post" novalidate data-vb-form>
+      {%- comment -%} Step 1: bike {%- endcomment -%}
+      <fieldset class="vb-step" id="vb-{{ section.id }}-step-bike" tabindex="-1">
+        <legend class="vb-step__legend">
+          <span class="vb-step__num">{{ section.settings.step1_eyebrow | escape }}</span>
+          <span class="vb-step__title">{{ section.settings.step1_title | escape }}</span>
+        </legend>
+        <div class="vb-bikes">
+          {%- for block in bikes -%}
+            {%- assign bike_key = block.settings.title | handleize | remove: '-' -%}
+            <label class="vb-bike" {{ block.shopify_attributes }}>
+              <input type="radio" name="vb-bike-{{ section.id }}" value="{{ bike_key }}" data-vb-bike data-title="{{ block.settings.title | escape }}">
+              <span class="vb-bike__body{% if block.settings.image == blank %} vb-bike__body--text{% endif %}">
+                {%- if block.settings.image != blank -%}
+                  <span class="vb-bike__media">
+                    {{
+                      block.settings.image
+                      | image_url: width: 480
+                      | image_tag: loading: 'lazy', widths: '240, 480', sizes: '(min-width: 750px) 200px, 50vw', alt: ''
+                    }}
+                  </span>
+                {%- endif -%}
+                <span class="vb-bike__name">{{ block.settings.title | escape }}</span>
+              </span>
+            </label>
+          {%- endfor -%}
+        </div>
+      </fieldset>
+
+      {%- comment -%} Step 2: light (pick one) {%- endcomment -%}
+      <fieldset class="vb-step" data-vb-step="light">
+        <legend class="vb-step__legend">
+          <span class="vb-step__num">{{ section.settings.step2_eyebrow | escape }}</span>
+          <span class="vb-step__title">{{ section.settings.step2_title | escape }}</span>
+        </legend>
+        <div class="vb-items">
+          {%- for block in lights -%}
+            {%- if block.settings.product != blank -%}
+              {%- render 'volt-builder-item',
+                product: block.settings.product,
+                block: block,
+                kind: 'light',
+                section_id: section.id,
+                low_stock: section.settings.low_stock_threshold,
+                low_stock_text: section.settings.low_stock_text,
+                fits_prefix: section.settings.fits_prefix
+              -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <p class="vb-step__empty" data-vb-empty hidden>{{ section.settings.empty_text | escape }}</p>
+      </fieldset>
+
+      {%- comment -%} Step 3: add-ons (pick any) {%- endcomment -%}
+      <fieldset class="vb-step" data-vb-step="addon">
+        <legend class="vb-step__legend">
+          <span class="vb-step__num">{{ section.settings.step3_eyebrow | escape }}</span>
+          <span class="vb-step__title">{{ section.settings.step3_title | escape }}</span>
+        </legend>
+        <div class="vb-items">
+          {%- for block in addons -%}
+            {%- if block.settings.product != blank -%}
+              {%- render 'volt-builder-item',
+                product: block.settings.product,
+                block: block,
+                kind: 'addon',
+                section_id: section.id,
+                low_stock: section.settings.low_stock_threshold,
+                low_stock_text: section.settings.low_stock_text,
+                fits_prefix: section.settings.fits_prefix
+              -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <p class="vb-step__empty" data-vb-empty hidden>{{ section.settings.empty_text | escape }}</p>
+      </fieldset>
+    </form>
+
+    <aside class="vb-sum" aria-labelledby="vb-{{ section.id }}-sum-title">
+      <h2 class="vb-sum__title" id="vb-{{ section.id }}-sum-title">{{ section.settings.summary_title | escape }}</h2>
+      <details class="vb-sum__details" open data-vb-details>
+        <summary data-vb-toggle>{{ section.settings.summary_toggle | replace: '[count]', '0' | escape }}</summary>
+        <ul class="vb-sum__list" data-vb-list></ul>
+        <p class="vb-sum__empty" data-vb-list-empty>{{ section.settings.summary_empty | escape }}</p>
+      </details>
+      <div class="vb-sum__total">
+        <span class="vb-sum__total-label">{{ section.settings.total_label | escape }}</span>
+        <span class="vb-sum__total-value" data-vb-total aria-live="polite" aria-atomic="true">{{ 0 | money }}</span>
+      </div>
+      {%- if section.settings.total_note != blank -%}
+        <p class="vb-sum__note">{{ section.settings.total_note | escape }}</p>
+      {%- endif -%}
+      <button type="button" class="vs-btn vs-btn--dark vb-sum__btn" data-vb-submit aria-disabled="true">
+        {{ section.settings.button_label | escape }}
+      </button>
+      <p class="vb-sum__status" role="status" data-vb-status></p>
+    </aside>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Volt build your setup",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Small text above", "default": "Black Friday builder" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your setup" },
+    { "type": "checkbox", "id": "heading_is_h1", "label": "Use as the page's main heading (H1)", "default": true },
+    { "type": "text", "id": "subheading", "label": "Text below heading", "default": "Pick your bike, your light and your extras. We'll show what fits." },
+    { "type": "header", "content": "Steps" },
+    { "type": "text", "id": "step1_eyebrow", "label": "Step 1 small text", "default": "Step 1" },
+    { "type": "text", "id": "step1_title", "label": "Step 1 title", "default": "Pick your bike" },
+    { "type": "text", "id": "step2_eyebrow", "label": "Step 2 small text", "default": "Step 2" },
+    { "type": "text", "id": "step2_title", "label": "Step 2 title", "default": "Pick a light" },
+    { "type": "text", "id": "step3_eyebrow", "label": "Step 3 small text", "default": "Step 3" },
+    { "type": "text", "id": "step3_title", "label": "Step 3 title", "default": "Add-ons" },
+    { "type": "text", "id": "fits_prefix", "label": "Word before the bike list", "default": "Fits" },
+    { "type": "text", "id": "empty_text", "label": "When nothing in a step fits the bike", "default": "Nothing here fits that bike yet." },
+    { "type": "range", "id": "low_stock_threshold", "label": "Show low-stock note at or below", "min": 0, "max": 20, "step": 1, "default": 5, "info": "Set to 0 to hide it." },
+    { "type": "text", "id": "low_stock_text", "label": "Low-stock note", "default": "Only [count] left", "info": "[count] is replaced with the number in stock." },
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "summary_title", "label": "Title", "default": "Your setup" },
+    { "type": "text", "id": "summary_toggle", "label": "Item count on phones", "default": "Your setup ([count] items)", "info": "[count] is replaced with the number of items." },
+    { "type": "text", "id": "summary_empty", "label": "When nothing is picked", "default": "Nothing picked yet." },
+    { "type": "text", "id": "total_label", "label": "Total label", "default": "Total" },
+    { "type": "text", "id": "total_note", "label": "Note under total", "default": "Black Friday discounts apply automatically in your cart." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add all to cart" },
+    { "type": "header", "content": "Messages" },
+    { "type": "text", "id": "msg_need_bike", "label": "No bike picked", "default": "Pick your bike first." },
+    { "type": "text", "id": "msg_need_item", "label": "No products picked", "default": "Pick a light or an add-on." },
+    { "type": "text", "id": "msg_adding", "label": "While adding", "default": "Adding to cart..." },
+    { "type": "text", "id": "msg_added", "label": "After adding", "default": "Added to cart." },
+    { "type": "text", "id": "msg_error", "label": "If adding fails", "default": "Couldn't add to cart. Please try again." }
+  ],
+  "blocks": [
+    {
+      "type": "bike",
+      "name": "Bike",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Bike name", "default": "Bike", "info": "Use the same name in a product's \"Fits these bikes\" list." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. 4:3 works best. Without one, the name is shown on a black tile." }
+      ]
+    },
+    {
+      "type": "light",
+      "name": "Light",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "fits", "label": "Fits these bikes", "info": "Bike names separated by commas. Leave empty if it fits every bike." },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "checkbox", "id": "preselect", "label": "Selected when the page loads", "default": false }
+      ]
+    },
+    {
+      "type": "addon",
+      "name": "Add-on",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "fits", "label": "Fits these bikes", "info": "Bike names separated by commas. Leave empty if it fits every bike." },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "checkbox", "id": "preselect", "label": "Selected when the page loads", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Volt build your setup",
+      "blocks": [
+        { "type": "bike", "settings": { "title": "Super73" } },
+        { "type": "bike", "settings": { "title": "Surron" } },
+        { "type": "bike", "settings": { "title": "Ridstar" } },
+        { "type": "bike", "settings": { "title": "Macfox" } },
+        { "type": "bike", "settings": { "title": "Other" } },
+        { "type": "light" },
+        { "type": "addon" }
+      ]
+    }
+  ]
+}
+{% endschema %}
