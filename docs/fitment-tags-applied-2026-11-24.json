@@ -1,0 +1,323 @@
+{
+ "titanium-baja-bolts": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "value-surron-e-ride-titanium-kit": [
+  "fits:surron",
+  "fits:eride",
+  "builder:upgrades"
+ ],
+ "talaria-xxx-titanium-bolt-kit": [
+  "fits:talaria",
+  "builder:upgrades"
+ ],
+ "tuttio-soleil-titanium-bolt-kit": [
+  "fits:tuttio",
+  "builder:upgrades"
+ ],
+ "super-73-titanium-bolt-kit": [
+  "fits:super73",
+  "builder:upgrades"
+ ],
+ "yozma-in10-titanium-bolt-kit": [
+  "fits:yozma",
+  "builder:upgrades"
+ ],
+ "ultra-bee-titanium-bolt-kit": [
+  "fits:surron",
+  "builder:upgrades"
+ ],
+ "super-73-frame-bolts": [
+  "fits:super73",
+  "builder:upgrades"
+ ],
+ "e-ride-pro-2-0-3-0-titanium-bolt-kit": [
+  "fits:eride",
+  "builder:upgrades"
+ ],
+ "value-ultra-bee-titanium-kit": [
+  "fits:surron",
+  "builder:upgrades"
+ ],
+ "value-mx3-4-5-titanium-kit": [
+  "fits:talaria",
+  "builder:upgrades"
+ ],
+ "surron-lbx-titanium-bolt-kit": [
+  "fits:surron",
+  "builder:upgrades"
+ ],
+ "value-talaria-x3-titanium-bolt-kit": [
+  "fits:talaria",
+  "builder:upgrades"
+ ],
+ "yozma-upgrade-kit": [
+  "fits:yozma",
+  "builder:upgrades"
+ ],
+ "baja-s2-motoparty-tint-8-color-options": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "baja-s2-titanium-bolts-set-of-4": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "surron-lbx-fender-decal": [
+  "fits:surron",
+  "builder:style"
+ ],
+ "surron-ultra-bee-front-plate-decal": [
+  "fits:surron",
+  "builder:style"
+ ],
+ "tuttio-fork-guard-decals": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "surron-ultra-bee-fork-gaurd-decals": [
+  "fits:surron",
+  "builder:style"
+ ],
+ "yozma-in-10-fork-gaurd-decals": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "yozma-in-10-rear-fender-decal": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "eride-pro-rear-fender-decals": [
+  "fits:eride",
+  "builder:style"
+ ],
+ "yozma-in-10-front-plate-decal": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "surron-lbx-front-fender-decal": [
+  "fits:surron",
+  "builder:style"
+ ],
+ "talaria-dnm-fork-gaurd-decals": [
+  "fits:talaria",
+  "builder:style"
+ ],
+ "surron-ultra-bee-rear-fender-decal": [
+  "fits:surron",
+  "builder:style"
+ ],
+ "eride-pro-fork-guard-decals": [
+  "fits:eride",
+  "builder:style"
+ ],
+ "surron-ultra-bee-full-graphic-kit": [
+  "fits:surron",
+  "builder:style"
+ ],
+ "tuttio-full-frame-decal-kit": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "yozma-in-10-full-kit-with-rear-fender-and-fork-guards": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "pre-designed-tuttio-full-body-kits": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "yozma-in-10-full-decal-kit": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "glossy-motocutz-style-front-plate": [
+  "fits:surron",
+  "fits:talaria",
+  "fits:eride",
+  "builder:style"
+ ],
+ "yozma-front-plate-decal": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "yozma-rear-fender-decal": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "yozma-fork-guard-decal": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "yozma-in-10-sparkle-wrap": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "heybike-full-graphics-kit": [
+  "fits:heybike",
+  "builder:style"
+ ],
+ "yozma-full-graphics-kit": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "tuttio-full-graphics-kit": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "tuttio-soleil-01-sparkle-wrap": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "soleil-supplies-rear-fender-decal": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "tuttio-fork-guard-decals-1": [
+  "fits:tuttio",
+  "builder:style"
+ ],
+ "yozma-side-panel-decals": [
+  "fits:yozma",
+  "builder:style"
+ ],
+ "energy-edition-super-73-battery-decals": [
+  "fits:super73",
+  "builder:style",
+  "pick:super73:All Other Models of Super 73"
+ ],
+ "energy-edition-ridstar-battery-decals": [
+  "fits:ridstar",
+  "builder:style"
+ ],
+ "battery-powered-baja": [
+  "fits:all",
+  "builder:lights"
+ ],
+ "wide-style-light-mount-7-8-bars": [
+  "fits:super73",
+  "fits:ridstar",
+  "fits:macfox",
+  "builder:addons"
+ ],
+ "skinny-style-light-mount-7-8-bars": [
+  "fits:tuttio",
+  "builder:addons"
+ ],
+ "volt-v1-lite": [
+  "fits:all",
+  "builder:lights"
+ ],
+ "rocklight-v1": [
+  "fits:all",
+  "builder:lights"
+ ],
+ "rechargeable-battery-upgrade-12v-2000mah": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "volt-plug-and-play-lights": [
+  "fits:super73",
+  "fits:ridstar",
+  "fits:macfox",
+  "fits:yozma",
+  "fits:surron",
+  "fits:talaria",
+  "fits:heybike",
+  "fits:eride",
+  "builder:lights",
+  "pick:super73:3 Pin Female For Super73",
+  "pick:ridstar:3 Pin Male For Ridstar",
+  "pick:macfox:4 Pin for Macfox",
+  "pick:yozma:Plug n Play for Yozma In10",
+  "pick:surron:Surron Connector",
+  "pick:talaria:Talaria",
+  "pick:heybike:HeyBike Villain Connector",
+  "pick:eride:Surron Connector"
+ ],
+ "volt-customs-light-mount": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "volt-customs-ignition-spinner": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "volt-v1-battery-horn": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "ebike-christmas-lights-universal-\ud83c\udf84\ud83c\udf85": [
+  "fits:all",
+  "builder:addons"
+ ],
+ "ng1-surron-throttle": [
+  "fits:super73",
+  "fits:macfox",
+  "fits:ridstar",
+  "builder:upgrades",
+  "pick:super73:3 pin female",
+  "pick:macfox:3 pin Male",
+  "pick:ridstar:3 pin Male"
+ ],
+ "surron-throttle-for-e-bikes": [
+  "fits:super73",
+  "fits:macfox",
+  "fits:ridstar",
+  "builder:upgrades",
+  "pick:super73:3-Pin Female: For Super73",
+  "pick:macfox:3-Pin Male: For Macfox",
+  "pick:ridstar:3-Pin Male: For Macfox"
+ ],
+ "cnc-aluminum-surron-throttle-for-e-bikes": [
+  "fits:super73",
+  "fits:macfox",
+  "fits:ridstar",
+  "builder:upgrades",
+  "pick:super73:3-Pin Female: For Super73",
+  "pick:macfox:3-Pin Male: For Macfox",
+  "pick:ridstar:3-Pin Male: For Macfox"
+ ],
+ "volt-v1-aluminum-handlebars-31-8": [
+  "fits:surron",
+  "fits:talaria",
+  "fits:eride",
+  "builder:upgrades"
+ ],
+ "supermoto-tires-for-super73-ridstar-macfox": [
+  "fits:ridstar",
+  "fits:macfox",
+  "fits:super73",
+  "builder:upgrades"
+ ],
+ "yozma-in10-v2-ultra-bee-brake-kit-volt": [
+  "fits:yozma",
+  "builder:upgrades"
+ ],
+ "talaria-lbx-e-ride-pro-v2-ultra-bee-brake-kit-volt": [
+  "fits:surron",
+  "fits:eride",
+  "fits:talaria",
+  "builder:upgrades",
+  "pick:surron:Surron Light Bee & E-Ride Pro S/2.0",
+  "pick:eride:Surron Light Bee & E-Ride Pro S/2.0",
+  "pick:talaria:Talaria XXX/MX3/MX4"
+ ],
+ "complete-17in-emoto-super-moto-wheelset-chrome-black-79bike-surron-eride-ventus": [
+  "fits:surron",
+  "fits:eride",
+  "builder:upgrades",
+  "pick:surron:Surron LBX/LBS",
+  "pick:eride:Eride S/SS"
+ ],
+ "cnc-chrome-wheel-set": [
+  "fits:yozma",
+  "fits:tuttio",
+  "fits:heybike",
+  "builder:upgrades",
+  "pick:yozma:Yozma In10",
+  "pick:tuttio:Tuttio Soleil 01",
+  "pick:heybike:HeyBike Villan"
+ ]
+}
