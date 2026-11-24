@@ -1,0 +1,667 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "vhero": {
+      "type": "volt-hero",
+      "settings": {
+        "image": "shopify://shop_images/PNG-image_16_c3220360-39e1-4ee3-889f-668f27930a8b.png",
+        "focal": "center",
+        "overlay": 50,
+        "height": 85,
+        "heading": "Light up your\nride today.",
+        "subline": "Battery powered • Plug and play • Factory grade",
+        "button_label": "Shop best sellers",
+        "button_link": "shopify://collections/best-sellers"
+      }
+    },
+    "vess": {
+      "type": "volt-essentials",
+      "blocks": {
+        "c1": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/PNG-image_11.png",
+            "label": "5 products",
+            "title": "Lighting",
+            "button_label": "Shop now",
+            "link": "shopify://collections/lighting"
+          }
+        },
+        "c2": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/0AB2ABCC-B0CB-46CB-B2E6-D3374D43EAD3.png",
+            "label": "6 products",
+            "title": "E-moto brakes",
+            "button_label": "Shop now",
+            "link": "shopify://collections/e-moto-brakes"
+          }
+        },
+        "c3": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/e12d27ae-7f24-4731-86e8-116cd67a25c2.png",
+            "label": "48 products",
+            "title": "E-moto Wheels",
+            "button_label": "Shop now",
+            "link": "shopify://collections/emoto-wheels"
+          }
+        },
+        "c4": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/39BF5090-1609-46F3-9AB1-9E2010E83754.webp",
+            "label": "10 products",
+            "title": "Titanium",
+            "button_label": "Shop now",
+            "link": "shopify://collections/titanium"
+          }
+        },
+        "c5": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/PNG-image_13_50063d16-632a-4382-b6f5-1a23d78c8689.png",
+            "label": "2 products",
+            "title": "Decals",
+            "button_label": "Shop now",
+            "link": "shopify://collections/decals"
+          }
+        },
+        "c6": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/PNG-image_24d43609-7d93-4e67-8242-989d5e8f7e95.png",
+            "label": "15 products",
+            "title": "E-bike Parts",
+            "button_label": "Shop now",
+            "link": "shopify://collections/e-bike-parts"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ],
+      "settings": {
+        "eyebrow": "Built for the dark.",
+        "title": "Shop the essentials"
+      }
+    },
+    "featured_product_Kh7UDg": {
+      "type": "featured-product",
+      "blocks": {
+        "title_RXLDxU": {
+          "type": "title",
+          "settings": {
+            "text_size": "h1",
+            "title_alignment": "left",
+            "uppercase_title": false,
+            "margin_top": 0,
+            "margin_bottom": 15
+          }
+        },
+        "price_KkV8q6": {
+          "type": "price",
+          "settings": {
+            "price_layout": "price-first",
+            "price_color": "accent-1",
+            "compare_price_color": "text",
+            "regular_price_size": 25,
+            "sale_price_size": 20,
+            "compare_price_size": 16,
+            "displayed_badge": "sale",
+            "icon_scale": 140,
+            "sale_badge_color": "accent-2",
+            "custom_badge_text": "[icon_1] SPECIAL OFFER",
+            "icon_1": "redeem",
+            "filled_icon_1": false,
+            "icon_2": "check_circle",
+            "filled_icon_2": false,
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "variant_picker_n8b33a": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_types": "pills, pills, pills",
+            "custom_labels": "",
+            "skip_unavailable": false,
+            "swatches_size": "medium",
+            "swatches_border_radius": 100,
+            "swatches_custom_colors": "disabled",
+            "swatches_custom_colors_list": "#000000, #FFFFFF",
+            "breaks_style": "normal",
+            "breaks_headline": "BUNDLE & SAVE",
+            "breaks_prices_layout": "price-first-vertical",
+            "breaks_display_selected_indicator": true,
+            "breaks_border_radius": 10,
+            "breaks_border_width": 2,
+            "breaks_color_scheme": "accent-1",
+            "breaks_vertical_items_align": "flex-start",
+            "breaks_badges": "[empty], Most popular, [empty]",
+            "breaks_badge_style": "1",
+            "breaks_badge_color": "accent-1",
+            "breaks_displayed_images": "none",
+            "breaks_custom_images": "",
+            "breaks_image_width": 70,
+            "breaks_space_images": true,
+            "breaks_vertical_images_position": "top",
+            "breaks_labels": "[name], [name], [name]",
+            "breaks_benefits": "[empty], Free Shipping, Free Shipping",
+            "breaks_benefit_position": "top",
+            "breaks_benefit_style": "outlined",
+            "breaks_benefit_color": "accent-1",
+            "breaks_captions": "Variant 1 caption, Variant 2 caption, Variant 3 caption",
+            "breaks_price_texts": "[price], [price], [price]",
+            "breaks_compare_price_texts": "[compare_price], [compare_price], [compare_price]",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "quantity_selector_Af3DCA": {
+          "type": "quantity_selector",
+          "settings": {
+            "full_width_classic": false,
+            "atc_append": "none",
+            "atc_append_heights": "stretch-quantity",
+            "enable_quantity_discounts": false,
+            "headline": "BUNDLE & SAVE",
+            "style": "normal",
+            "preselected": "option_1",
+            "update_pdp_prices": false,
+            "prices_layout": "price-first-vertical",
+            "display_selected_indicator": true,
+            "border_radius": 10,
+            "border_width": 2,
+            "color_scheme": "accent-1",
+            "enable_variant_selectors": true,
+            "pickers_label": "",
+            "enable_variant_selectors_on_quantity_of_1": false,
+            "update_prices": false,
+            "pickers_number_text": "<strong>#[index]</strong>",
+            "show_selected_variant_images": false,
+            "variant_images_position": "middle",
+            "skip_unavailable": false,
+            "full_width_pickers": false,
+            "hide_pickers_overlay": true,
+            "indicator_top": true,
+            "scroll_media_gallery": true,
+            "image_width": 70,
+            "vertical_items_align": "flex-start",
+            "space_images": true,
+            "vertical_images_position": "top",
+            "hide_upsells_on_non_selected": true,
+            "upsells_primary_style_bg_color": "#6d388b",
+            "upsells_primary_style_text_color": "#fff",
+            "upsells_primary_style_badge_color_scheme": "inverse",
+            "upsells_secondary_style_bg_color": "#e6dcf0",
+            "upsells_secondary_style_text_color": "#121212",
+            "upsells_secondary_style_badge_color_scheme": "accent-1",
+            "upsells_badge_radius": 45,
+            "upsell_1_product": "",
+            "upsell_1_min_offer": "2",
+            "upsell_1_type": "checkbox_preselected",
+            "upsell_1_design": "primary",
+            "upsell_1_badge_position": "left",
+            "upsell_1_text_left": "Add [title]",
+            "upsell_1_text_right": "<strong>[price]</strong>",
+            "upsell_1_badge_text": "",
+            "upsell_2_product": "",
+            "upsell_2_min_offer": "2",
+            "upsell_2_type": "checkbox_preselected",
+            "upsell_2_design": "primary",
+            "upsell_2_badge_position": "left",
+            "upsell_2_text_left": "Add [title]",
+            "upsell_2_text_right": "<strong>[price]</strong>",
+            "upsell_2_badge_text": "",
+            "upsell_3_product": "",
+            "upsell_3_min_offer": "2",
+            "upsell_3_type": "checkbox_preselected",
+            "upsell_3_design": "primary",
+            "upsell_3_badge_position": "left",
+            "upsell_3_text_left": "Add [title]",
+            "upsell_3_text_right": "<strong>[price]</strong>",
+            "upsell_3_badge_text": "",
+            "text_accent_color": "#6d388b",
+            "option_1_quantity": 1,
+            "option_1_percentage_off_text": "0",
+            "option_1_fixed_amount_off": "0",
+            "option_1_compare_price": "compare_price",
+            "option_1_badge": "",
+            "option_1_label": "<strong>Buy [quantity]</strong>",
+            "option_1_benefit": "",
+            "option_1_caption": "You save [amount_saved]",
+            "option_1_price_text": "<strong><em>[price]</em></strong>",
+            "option_1_compare_price_text": "[compare_price]",
+            "option_1_badge_style": "1",
+            "option_1_badge_color": "accent-1",
+            "option_1_benefit_position": "top",
+            "option_1_benefit_style": "outlined",
+            "option_1_benefit_radius": 45,
+            "option_1_benefit_color": "accent-1",
+            "option_2_quantity": 2,
+            "option_2_percentage_off_text": "0",
+            "option_2_fixed_amount_off": "0",
+            "option_2_compare_price": "compare_price",
+            "option_2_badge": "",
+            "option_2_label": "<strong>Buy [quantity]</strong>",
+            "option_2_benefit": "",
+            "option_2_caption": "You save [amount_saved]",
+            "option_2_price_text": "<strong><em>[price]</em></strong>",
+            "option_2_compare_price_text": "[compare_price]",
+            "option_2_badge_style": "1",
+            "option_2_badge_color": "accent-1",
+            "option_2_benefit_position": "top",
+            "option_2_benefit_style": "outlined",
+            "option_2_benefit_radius": 45,
+            "option_2_benefit_color": "accent-1",
+            "option_3_quantity": 3,
+            "option_3_percentage_off_text": "0",
+            "option_3_fixed_amount_off": "0",
+            "option_3_compare_price": "compare_price",
+            "option_3_badge": "",
+            "option_3_label": "<strong>Buy [quantity]</strong>",
+            "option_3_benefit": "",
+            "option_3_caption": "You save [amount_saved]",
+            "option_3_price_text": "<strong><em>[price]</em></strong>",
+            "option_3_compare_price_text": "[compare_price]",
+            "option_3_badge_style": "1",
+            "option_3_badge_color": "accent-1",
+            "option_3_benefit_position": "top",
+            "option_3_benefit_style": "outlined",
+            "option_3_benefit_radius": 45,
+            "option_3_benefit_color": "accent-1",
+            "option_4_quantity": 4,
+            "option_4_percentage_off_text": "0",
+            "option_4_fixed_amount_off": "0",
+            "option_4_compare_price": "compare_price",
+            "option_4_badge": "",
+            "option_4_label": "<strong>Buy [quantity]</strong>",
+            "option_4_benefit": "",
+            "option_4_caption": "You save [amount_saved]",
+            "option_4_price_text": "<strong><em>[price]</em></strong>",
+            "option_4_compare_price_text": "[compare_price]",
+            "option_4_badge_style": "1",
+            "option_4_badge_color": "accent-1",
+            "option_4_benefit_position": "top",
+            "option_4_benefit_style": "outlined",
+            "option_4_benefit_radius": 45,
+            "option_4_benefit_color": "accent-1",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
+        "buy_buttons_xKCiXc": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "skip_cart": false,
+            "uppercase_text": true,
+            "icon_scale": 120,
+            "icon_spacing": 10,
+            "atc_custom_label": "",
+            "display_price": false,
+            "price_position": "left",
+            "price_separator": "•",
+            "enable_custom_color": false,
+            "custom_color": "#dd1d1d",
+            "custom_text_color": "#fff",
+            "enable_secondary_btn": false,
+            "secondary_btn_label": "Buy It Now",
+            "secondary_btn_enable_custom_color": false,
+            "secondary_btn_custom_color": "#dd1d1d",
+            "margin_top": 24,
+            "margin_bottom": 24
+          }
+        },
+        "view_details_YeYHcU": {
+          "type": "view_details",
+          "settings": {
+            "style": "text",
+            "enable_custom_color": false,
+            "custom_color": "#dd1d1d",
+            "large_font_size": false,
+            "uppercase": false,
+            "display_arrow": true,
+            "margin_top": 15,
+            "margin_bottom": 0
+          }
+        }
+      },
+      "block_order": [
+        "title_RXLDxU",
+        "price_KkV8q6",
+        "variant_picker_n8b33a",
+        "quantity_selector_Af3DCA",
+        "buy_buttons_xKCiXc",
+        "view_details_YeYHcU"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "color_scheme": "background-1",
+        "secondary_background": false,
+        "enable_sticky_info": true,
+        "product": "supermoto-tires-for-super73-ridstar-macfox",
+        "product_images": "all",
+        "display_variant_image_first": false,
+        "disable_prepend": false,
+        "hide_variants": false,
+        "variant_image_filtering": "none",
+        "image_zoom": "none",
+        "arrows_color_scheme": "inverse",
+        "transparent_arrows": false,
+        "dots_color_scheme": "inverse",
+        "video_player": "play_btn",
+        "enable_video_looping": false,
+        "autoplay_videos_pause_btn": false,
+        "video_sound_btn": false,
+        "video_timeline": false,
+        "play_btn_color_scheme": "accent-1",
+        "sound_btn_color_scheme": "inverse",
+        "timeline_color": "accent-1",
+        "media_size": "small",
+        "media_position": "left",
+        "gallery_layout": "thumbnail_slider",
+        "desktop_thumbnails_position": "bottom",
+        "desktop_thumbnails_count": 5,
+        "desktop_vertical_thumbnails_width": 16,
+        "desktop_vertical_thumbnails_hide_arrows": false,
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "desktop_arrows_position": "hidden",
+        "mobile_media_corner_radius": 0,
+        "mobile_spacing_pixels": 0,
+        "mobile_arrows_position": "sides",
+        "mobile_pagination": "dots_overlay",
+        "mobile_thumbnails_position": "hidden",
+        "mobile_thumbnails_count": 6,
+        "mobile_vertical_thumbnails_width": 22,
+        "mobile_vertical_thumbnails_hide_arrows": true,
+        "mobile_scroll_padding_percentage": 0,
+        "mobile_scroll_padding_pixels": 0,
+        "enable_mobile_outher_spacing": false,
+        "mobile_slides_container_width": 100,
+        "mobile_slides_inner_width": 100,
+        "trust_badge_position": "top-right",
+        "trust_badge_size": "medium",
+        "mobile_padding_top": 20,
+        "mobile_padding_bottom": 20,
+        "desktop_padding_top": 36,
+        "desktop_padding_bottom": 36
+      }
+    },
+    "vmarq": {
+      "type": "volt-marquee",
+      "settings": {
+        "text": "Battery powered • Plug and play",
+        "speed": 40
+      }
+    },
+    "vbest": {
+      "type": "volt-bestsellers",
+      "settings": {
+        "eyebrow": "Most ordered this month",
+        "title": "#1 Sellers",
+        "view_all_label": "View all",
+        "collection": "best-sellers",
+        "count": 6,
+        "columns_desktop": "3",
+        "image_ratio": "4 / 5",
+        "brand_label": "Volt Customs"
+      }
+    },
+    "vbuilds": {
+      "type": "volt-builds",
+      "blocks": {
+        "b1": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/PNG-image_10.png",
+            "caption": ""
+          }
+        },
+        "b2": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/PNG-image_4_3147f680-0c76-4d37-8e32-daca50f5702f.png",
+            "caption": ""
+          }
+        },
+        "b3": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/3CDED792-9383-45C2-B250-B5E52092A842.jpg",
+            "caption": ""
+          }
+        },
+        "b4": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/D81B8621-4012-46FD-86D2-ECFA3AE1CFA1.jpg",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "heading_main": "Featured builds - only possible",
+        "heading_dim": "with Volt Customs"
+      }
+    },
+    "vrev": {
+      "type": "volt-review-strip",
+      "settings": {
+        "eyebrow": "Verified Shop reviews",
+        "title": "Riders say",
+        "reviews": [],
+        "min_rating": 4,
+        "limit": 8,
+        "min_chars": 25
+      }
+    },
+    "vcmp": {
+      "type": "volt-compare",
+      "blocks": {
+        "r1": {
+          "type": "row",
+          "settings": {
+            "attribute": "Install",
+            "stock": "Varies by bike",
+            "volt": "Plug and play"
+          }
+        },
+        "r2": {
+          "type": "row",
+          "settings": {
+            "attribute": "Power",
+            "stock": "Needs bike wiring",
+            "volt": "Battery powered option + Plug and Play"
+          }
+        },
+        "r3": {
+          "type": "row",
+          "settings": {
+            "attribute": "Fitment",
+            "stock": "One bike only",
+            "volt": "Every Ebike"
+          }
+        },
+        "r4": {
+          "type": "row",
+          "settings": {
+            "attribute": "Brightness",
+            "stock": "Whatever came on your bike",
+            "volt": "2,000 lumens"
+          }
+        },
+        "r5": {
+          "type": "row",
+          "settings": {
+            "attribute": "Battery",
+            "stock": "Shares your bike's battery",
+            "volt": "AA pack or 12V rechargeable"
+          }
+        },
+        "r6": {
+          "type": "row",
+          "settings": {
+            "attribute": "Switch",
+            "stock": "Stock switchgear",
+            "volt": "Handlebar switch included"
+          }
+        },
+        "r7": {
+          "type": "row",
+          "settings": {
+            "attribute": "Mounting",
+            "stock": "Fixed position",
+            "volt": "Bracket + bolt-on mounts"
+          }
+        },
+        "r8": {
+          "type": "row",
+          "settings": {
+            "attribute": "Build",
+            "stock": "Not listed",
+            "volt": "ISO 9001 certified factory"
+          }
+        },
+        "r9": {
+          "type": "row",
+          "settings": {
+            "attribute": "Style",
+            "stock": "Factory look",
+            "volt": "8 lens tint colors"
+          }
+        },
+        "r10": {
+          "type": "row",
+          "settings": {
+            "attribute": "Underglow",
+            "stock": "Not included",
+            "volt": "Rocklight add-on"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6",
+        "r7",
+        "r8",
+        "r9",
+        "r10"
+      ],
+      "settings": {
+        "title_main": "Stock vs Volt Customs",
+        "title_dim": "lights",
+        "subtitle": "See what you are missing after dark",
+        "col_attr": "Attribute",
+        "col_stock": "Stock",
+        "col_volt": "Volt",
+        "best_label": "Best",
+        "button_label": "Shop lighting",
+        "button_link": "shopify://collections/lighting"
+      }
+    },
+    "vwhy": {
+      "type": "volt-why",
+      "blocks": {
+        "w1": {
+          "type": "card",
+          "settings": {
+            "icon": "plug",
+            "title": "Plug and play",
+            "text": "Connectors made for popular e-bikes, so installs are quick."
+          }
+        },
+        "w2": {
+          "type": "card",
+          "settings": {
+            "icon": "battery",
+            "title": "Battery powered",
+            "text": "No wiring into your bike. Stick it on and ride."
+          }
+        },
+        "w3": {
+          "type": "card",
+          "settings": {
+            "icon": "bolt",
+            "title": "Bright after dark",
+            "text": "Lights and horns built to be seen and heard."
+          }
+        },
+        "w4": {
+          "type": "card",
+          "settings": {
+            "icon": "star",
+            "title": "Rider reviewed",
+            "text": "[rating] stars from [count] Shop ratings."
+          }
+        },
+        "w5": {
+          "type": "card",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast shipping",
+            "text": "Orders go out quickly so you can get riding."
+          }
+        },
+        "w6": {
+          "type": "card",
+          "settings": {
+            "icon": "tag",
+            "title": "Fair prices",
+            "text": "Real deals on lights, horns, mounts and more."
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6"
+      ],
+      "settings": {
+        "title_main": "Why riders choose",
+        "title_dim": "us"
+      }
+    }
+  },
+  "order": [
+    "vhero",
+    "vess",
+    "featured_product_Kh7UDg",
+    "vmarq",
+    "vbest",
+    "vbuilds",
+    "vrev",
+    "vcmp",
+    "vwhy"
+  ]
+}

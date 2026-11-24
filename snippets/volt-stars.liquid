@@ -1,0 +1,10 @@
+{%- comment -%}
+  Black star rating. Usage: {% render 'volt-stars', rating: 4.5, size: 16 %}
+{%- endcomment -%}
+{%- assign vr_r = rating | default: 0 | times: 1.0 | at_least: 0 | at_most: 5 -%}
+{%- assign vr_w = vr_r | divided_by: 5.0 | times: 100 -%}
+{%- capture vr_star -%}<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6l2.8 6.1 6.7.7-5 4.5 1.4 6.6L12 17.1l-5.9 3.4 1.4-6.6-5-4.5 6.7-.7z"/></svg>{%- endcapture -%}
+<span class="vr-stars" style="--vr-s:{{ size | default: 16 }}px" role="img" aria-label="{{ vr_r | round: 1 }} out of 5 stars">
+  <span class="vr-stars__row vr-stars__row--bg">{{ vr_star }}{{ vr_star }}{{ vr_star }}{{ vr_star }}{{ vr_star }}</span>
+  <span class="vr-stars__row vr-stars__row--fg" style="width:{{ vr_w }}%">{{ vr_star }}{{ vr_star }}{{ vr_star }}{{ vr_star }}{{ vr_star }}</span>
+</span>

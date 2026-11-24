@@ -1,0 +1,14 @@
+{%- comment -%}
+  Stars + average + count under the product title. Links to the reviews section.
+  Shows nothing when the product has no Shop reviews.
+{%- endcomment -%}
+{%- assign vr_count = product.metafields.volt.review_count.value | default: 0 -%}
+{%- if vr_count > 0 -%}
+  {{ 'volt-reviews.css' | asset_url | stylesheet_tag }}
+  {%- assign vr_avg = product.metafields.volt.rating.value | times: 1.0 -%}
+  <a href="#volt-reviews" class="vr-sum">
+    {%- render 'volt-stars', rating: vr_avg, size: 16 -%}
+    <span class="vr-sum__avg">{{ vr_avg | round: 1 }}</span>
+    <span class="vr-sum__n">{{ vr_count }} {% if vr_count == 1 %}rating{% else %}ratings{% endif %}</span>
+  </a>
+{%- endif -%}

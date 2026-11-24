@@ -1,0 +1,900 @@
+{% doc %}
+  @prompt
+    Would like a "Bundle And Save" carousel where i can list all of the Bundles, and when you hit the arrow it reveals one new one and the farthest one gets hidden., looking great but i would like to be able to select the products instead of using button links, give me the option to add more bundles in the future and its not just a set ammount of bundles, no, make it so that i can just add the collection and it will automatically put how many i need, show the whole bundle, photo included. everything. but dont make it too long
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bundle-carousel-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-bundle-carousel__header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.text_alignment }};
+    margin-bottom: {{ block.settings.heading_spacing }}px;
+  }
+
+  .ai-bundle-carousel__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.subheading_spacing }}px;
+    font-weight: 700;
+  }
+
+  .ai-bundle-carousel__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheading_size }}px;
+    color: {{ block.settings.subheading_color }};
+    margin: 0;
+  }
+
+  .ai-bundle-carousel__container-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    padding: 0 60px;
+  }
+
+  .ai-bundle-carousel__track-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.card_spacing }}px;
+    transition: transform 0.4s ease;
+  }
+
+  .ai-bundle-carousel__card-{{ ai_gen_id }} {
+    flex: 0 0 calc((100% - ({{ block.settings.cards_per_view | minus: 1 }} * {{ block.settings.card_spacing }}px)) / {{ block.settings.cards_per_view }});
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 {{ block.settings.card_shadow_vertical }}px {{ block.settings.card_shadow_blur }}px rgba(0, 0, 0, {{ block.settings.card_shadow_opacity | divided_by: 100.0 }});
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-bundle-carousel__card-{{ ai_gen_id }}:hover {
+    transform: translateY(-{{ block.settings.card_hover_lift }}px);
+    box-shadow: 0 {{ block.settings.card_shadow_vertical | plus: 4 }}px {{ block.settings.card_shadow_blur | plus: 8 }}px rgba(0, 0, 0, {{ block.settings.card_shadow_opacity | divided_by: 100.0 | times: 1.5 }});
+  }
+
+  .ai-bundle-carousel__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 75%;
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  .ai-bundle-carousel__image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-bundle-carousel__badge-{{ ai_gen_id }} {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: {{ block.settings.badge_background }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 4px 10px;
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .ai-bundle-carousel__content-{{ ai_gen_id }} {
+    padding: {{ block.settings.card_padding }}px;
+    text-align: {{ block.settings.card_text_alignment }};
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-bundle-carousel__product-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_title_size }}px;
+    color: {{ block.settings.product_title_color }};
+    margin: 0 0 6px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .ai-bundle-carousel__description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.description_color }};
+    margin: 0 0 8px;
+    line-height: 1.4;
+    flex-grow: 1;
+  }
+
+  .ai-bundle-carousel__price-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: {{ block.settings.card_text_alignment }};
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .ai-bundle-carousel__price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.price_color }};
+    font-weight: 700;
+  }
+
+  .ai-bundle-carousel__compare-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size | times: 0.85 }}px;
+    color: {{ block.settings.compare_price_color }};
+    text-decoration: line-through;
+    opacity: 0.7;
+  }
+
+  .ai-bundle-carousel__button-{{ ai_gen_id }} {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    text-align: center;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .ai-bundle-carousel__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    transform: scale(1.02);
+  }
+
+  .ai-bundle-carousel__arrow-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: {{ block.settings.arrow_size }}px;
+    height: {{ block.settings.arrow_size }}px;
+    background-color: {{ block.settings.arrow_background }};
+    color: {{ block.settings.arrow_color }};
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-bundle-carousel__arrow-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.arrow_hover_background }};
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .ai-bundle-carousel__arrow-{{ ai_gen_id }}:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .ai-bundle-carousel__arrow-{{ ai_gen_id }}:disabled:hover {
+    transform: translateY(-50%) scale(1);
+  }
+
+  .ai-bundle-carousel__arrow--prev-{{ ai_gen_id }} {
+    left: 0;
+  }
+
+  .ai-bundle-carousel__arrow--next-{{ ai_gen_id }} {
+    right: 0;
+  }
+
+  .ai-bundle-carousel__arrow-icon-{{ ai_gen_id }} {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ai-bundle-carousel__empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+  }
+
+  .ai-bundle-carousel__empty-icon-{{ ai_gen_id }} {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    opacity: 0.3;
+  }
+
+  .ai-bundle-carousel__empty-text-{{ ai_gen_id }} {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-bundle-carousel__card-{{ ai_gen_id }} {
+      flex: 0 0 calc((100% - ({{ block.settings.cards_per_view_tablet | minus: 1 }} * {{ block.settings.card_spacing }}px)) / {{ block.settings.cards_per_view_tablet }});
+    }
+
+    .ai-bundle-carousel__container-{{ ai_gen_id }} {
+      padding: 0 50px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bundle-carousel__card-{{ ai_gen_id }} {
+      flex: 0 0 100%;
+    }
+
+    .ai-bundle-carousel__container-{{ ai_gen_id }} {
+      padding: 0 40px;
+    }
+
+    .ai-bundle-carousel__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-bundle-carousel__arrow-{{ ai_gen_id }} {
+      width: {{ block.settings.arrow_size | times: 0.8 }}px;
+      height: {{ block.settings.arrow_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<bundle-carousel-{{ ai_gen_id }} class="ai-bundle-carousel-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.heading != blank or block.settings.subheading != blank %}
+    <div class="ai-bundle-carousel__header-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-bundle-carousel__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.subheading != blank %}
+        <p class="ai-bundle-carousel__subtitle-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if block.settings.collection != blank and block.settings.collection.products.size > 0 %}
+    <div class="ai-bundle-carousel__container-{{ ai_gen_id }}">
+      <button
+        class="ai-bundle-carousel__arrow-{{ ai_gen_id }} ai-bundle-carousel__arrow--prev-{{ ai_gen_id }}"
+        aria-label="Previous"
+        data-direction="prev"
+      >
+        <svg class="ai-bundle-carousel__arrow-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="ai-bundle-carousel__track-{{ ai_gen_id }}">
+        {% for product in block.settings.collection.products limit: block.settings.max_products %}
+          <div class="ai-bundle-carousel__card-{{ ai_gen_id }}">
+            <a href="{{ product.url }}" class="ai-bundle-carousel__image-wrapper-{{ ai_gen_id }}">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  class="ai-bundle-carousel__image-{{ ai_gen_id }}"
+                  loading="lazy"
+                  width="600"
+                  height="450"
+                >
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {% endif %}
+
+              {% if block.settings.show_badge %}
+                {% if product.compare_at_price > product.price %}
+                  {% assign savings_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                  <div class="ai-bundle-carousel__badge-{{ ai_gen_id }}">
+                    {{ block.settings.badge_text | replace: '[percentage]', savings_percent | append: '%' }}
+                  </div>
+                {% endif %}
+              {% endif %}
+            </a>
+
+            <div class="ai-bundle-carousel__content-{{ ai_gen_id }}">
+              <h3 class="ai-bundle-carousel__product-title-{{ ai_gen_id }}">
+                <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">
+                  {{ product.title }}
+                </a>
+              </h3>
+
+              {% if block.settings.show_description and product.description != blank %}
+                <div class="ai-bundle-carousel__description-{{ ai_gen_id }}">
+                  {{ product.description | strip_html | truncate: 80 }}
+                </div>
+              {% endif %}
+
+              <div class="ai-bundle-carousel__price-wrapper-{{ ai_gen_id }}">
+                <span class="ai-bundle-carousel__price-{{ ai_gen_id }}">
+                  {{ product.price | money }}
+                </span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="ai-bundle-carousel__compare-price-{{ ai_gen_id }}">
+                    {{ product.compare_at_price | money }}
+                  </span>
+                {% endif %}
+              </div>
+
+              <a href="{{ product.url }}" class="ai-bundle-carousel__button-{{ ai_gen_id }}">
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <button
+        class="ai-bundle-carousel__arrow-{{ ai_gen_id }} ai-bundle-carousel__arrow--next-{{ ai_gen_id }}"
+        aria-label="Next"
+        data-direction="next"
+      >
+        <svg class="ai-bundle-carousel__arrow-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+  {% else %}
+    <div class="ai-bundle-carousel__empty-state-{{ ai_gen_id }}">
+      <div class="ai-bundle-carousel__empty-icon-{{ ai_gen_id }}">
+        {{ 'collection-1' | placeholder_svg_tag }}
+      </div>
+      <p class="ai-bundle-carousel__empty-text-{{ ai_gen_id }}">
+        Select a collection to display your bundle products
+      </p>
+    </div>
+  {% endif %}
+</bundle-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BundleCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.cardsPerView = {{ block.settings.cards_per_view }};
+      }
+
+      connectedCallback() {
+        this.track = this.querySelector('.ai-bundle-carousel__track-{{ ai_gen_id }}');
+        this.cards = this.querySelectorAll('.ai-bundle-carousel__card-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-bundle-carousel__arrow--prev-{{ ai_gen_id }}');
+        this.nextButton = this.querySelector('.ai-bundle-carousel__arrow--next-{{ ai_gen_id }}');
+
+        if (!this.track || this.cards.length === 0) return;
+
+        this.updateCardsPerView();
+        this.setupEventListeners();
+        this.updateButtons();
+
+        window.addEventListener('resize', () => this.handleResize());
+      }
+
+      setupEventListeners() {
+        if (this.prevButton) {
+          this.prevButton.addEventListener('click', () => this.slide('prev'));
+        }
+        if (this.nextButton) {
+          this.nextButton.addEventListener('click', () => this.slide('next'));
+        }
+      }
+
+      updateCardsPerView() {
+        const width = window.innerWidth;
+        if (width <= 749) {
+          this.cardsPerView = 1;
+        } else if (width <= 989) {
+          this.cardsPerView = {{ block.settings.cards_per_view_tablet }};
+        } else {
+          this.cardsPerView = {{ block.settings.cards_per_view }};
+        }
+      }
+
+      handleResize() {
+        this.updateCardsPerView();
+        this.currentIndex = Math.min(this.currentIndex, this.getMaxIndex());
+        this.updateTrackPosition();
+        this.updateButtons();
+      }
+
+      slide(direction) {
+        if (direction === 'next') {
+          this.currentIndex = Math.min(this.currentIndex + 1, this.getMaxIndex());
+        } else {
+          this.currentIndex = Math.max(this.currentIndex - 1, 0);
+        }
+        this.updateTrackPosition();
+        this.updateButtons();
+      }
+
+      getMaxIndex() {
+        return Math.max(0, this.cards.length - this.cardsPerView);
+      }
+
+      updateTrackPosition() {
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = {{ block.settings.card_spacing }};
+        const offset = this.currentIndex * (cardWidth + gap);
+        this.track.style.transform = `translateX(-${offset}px)`;
+      }
+
+      updateButtons() {
+        if (this.prevButton) {
+          this.prevButton.disabled = this.currentIndex === 0;
+        }
+        if (this.nextButton) {
+          this.nextButton.disabled = this.currentIndex >= this.getMaxIndex();
+        }
+      }
+    }
+
+    customElements.define('bundle-carousel-{{ ai_gen_id }}', BundleCarousel{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle and save carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bundle And Save"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Get more for less with our exclusive bundles"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "label": "Maximum products to show",
+      "default": 12
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "View Bundle"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show product description",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Cards per view (desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "cards_per_view_tablet",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Cards per view (tablet)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "card_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Space between cards",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Header text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "card_text_alignment",
+      "label": "Card text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading bottom spacing",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "subheading_spacing",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Subheading bottom spacing",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Heading style"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_opacity",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_vertical",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_hover_lift",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Hover lift effect",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Product info"
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Product title size",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Product title color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Price size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#ffcc00"
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare price color",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show savings badge",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Save [percentage]"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#ffcc00"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge font size",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge border radius",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#ffcc00"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#e6b800"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Arrows"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Arrow button size",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "arrow_background",
+      "label": "Arrow background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_background",
+      "label": "Arrow hover background",
+      "default": "#ffcc00"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow icon color",
+      "default": "#121212"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle and save carousel"
+    }
+  ]
+}
+{% endschema %}

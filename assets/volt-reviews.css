@@ -1,0 +1,67 @@
+/* Volt reviews (Shop app) — black and white, Shyft-style */
+.vr-stars{position:relative;display:inline-block;line-height:0;vertical-align:middle;flex:none}
+.vr-stars__row{display:flex;white-space:nowrap}
+.vr-stars svg{width:var(--vr-s,16px);height:var(--vr-s,16px);flex:0 0 var(--vr-s,16px)}
+.vr-stars__row--bg svg{fill:#d9d9d9}
+.vr-stars__row--fg{position:absolute;top:0;left:0;bottom:0;overflow:hidden}
+.vr-stars__row--fg svg{fill:#0a0a0a}
+
+.vr-sum{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#0a0a0a;margin:6px 0 10px;font-family:'Inter Tight',Inter,system-ui,sans-serif;font-size:14px}
+.vr-sum__avg{font-weight:700}
+.vr-sum__n{color:#6b6f76;text-decoration:underline;text-underline-offset:3px}
+.vr-sum:hover .vr-sum__n{color:#0a0a0a}
+
+.vr{padding:80px 0;background:#fff;color:#0a0a0a;font-family:'Inter Tight',Inter,system-ui,sans-serif}
+.vr__inner{max-width:1240px;margin:0 auto;padding:0 24px}
+.vr__eyebrow{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:#6b6f76;margin:0 0 10px}
+.vr__title{font-family:'Bebas Neue',Oswald,sans-serif;font-weight:400;font-size:64px;line-height:.95;text-transform:uppercase;margin:0;color:#0a0a0a}
+.vr__head{margin-bottom:36px}
+.vr__head--row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.vr__total{display:flex;align-items:center;gap:10px;font-size:15px;color:#6b6f76}
+.vr__total strong{color:#0a0a0a}
+
+.vr__layout{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:start}
+.vr__summary{position:sticky;top:110px;border:1px solid #dadada;border-radius:14px;padding:28px}
+.vr__avg{font-family:'Bebas Neue',Oswald,sans-serif;font-size:96px;line-height:.9;margin-bottom:6px}
+.vr__based{margin:12px 0 20px;font-size:14px;color:#6b6f76}
+.vr__bars{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.vr__bars li{display:grid;grid-template-columns:56px 1fr 32px;align-items:center;gap:10px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:.04em}
+.vr__bar{height:8px;border-radius:4px;background:#eee;overflow:hidden}
+.vr__bar i{display:block;height:100%;background:#0a0a0a;border-radius:4px}
+.vr__bar-n{text-align:right;color:#6b6f76}
+
+.vr__list{display:grid;gap:14px}
+.vr__item[hidden]{display:none}
+.vr__more{justify-self:start;margin-top:8px;min-height:52px;padding:0 28px;border-radius:12px;border:1.5px solid #0a0a0a;background:#fff;color:#0a0a0a;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.vr__more:hover{background:#0a0a0a;color:#fff}
+
+.vr-card{border:1px solid #dadada;border-radius:14px;padding:22px 24px;background:#fff;display:flex;flex-direction:column;gap:12px;height:100%;box-sizing:border-box}
+.vr-card__top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.vr-card__date{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;color:#8b8f97;letter-spacing:.04em}
+.vr-card__body{margin:0;font-size:16px;line-height:1.5;color:#0a0a0a}
+.vr-card__meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto}
+.vr-card__name{font-weight:600;font-size:14px}
+.vr-card__badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#6b6f76}
+.vr-card__badge svg{width:13px;height:13px}
+.vr-card__product{font-size:13px;color:#6b6f76;text-decoration:none;border-top:1px solid #eee;padding-top:10px}
+a.vr-card__product:hover{color:#0a0a0a;text-decoration:underline}
+
+.vr__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:none}
+.vr__track::-webkit-scrollbar{display:none}
+.vr__slide{flex:0 0 min(360px,82vw);scroll-snap-align:start}
+
+@media (max-width:989px){
+  .vr__layout{grid-template-columns:1fr;gap:28px}
+  .vr__summary{position:static}
+}
+@media (max-width:749px){
+  .vr{padding:56px 0}
+  .vr__inner{padding:0 16px}
+  .vr__title{font-size:46px}
+  .vr__head{margin-bottom:24px}
+  .vr__avg{font-size:72px}
+  .vr__summary{padding:22px}
+  .vr-card{padding:18px}
+  .vr-card__body{font-size:15px}
+  .vr__more{width:100%;justify-self:stretch}
+}

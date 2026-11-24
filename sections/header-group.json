@@ -1,0 +1,138 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "volt_fonts": {
+      "type": "custom-liquid",
+      "name": "Volt fonts and styles",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "custom_liquid": "<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,700&display=swap'>\n<link rel='stylesheet' href='{{ 'volt-sections.css' | asset_url }}'>\n<style>\n:root{--font-heading-family:'Bebas Neue',Oswald,'Arial Narrow',sans-serif;--font-heading-weight:400;--font-heading-style:normal;--font-body-family:'Inter Tight',Inter,system-ui,sans-serif;--font-body-weight:400;--font-body-style:normal}\nbody{font-family:'Inter Tight',Inter,system-ui,sans-serif}\nh1,h2,h3,h4,h5,.h0,.h1,.h2,.h3,.h4,.h5{font-family:'Bebas Neue',Oswald,'Arial Narrow',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.01em}\n.button{font-family:'JetBrains Mono',ui-monospace,monospace;font-weight:500;text-transform:uppercase;letter-spacing:.18em}\n.card-wrapper .button,.quick-add .button{letter-spacing:.06em;padding-left:1.2rem;padding-right:1.2rem;white-space:nowrap}\n@media(max-width:749px){.card-wrapper .button,.quick-add .button{font-size:1.2rem;letter-spacing:.02em}}\n/* Logo crop: Bold_VOLT_Logo_with_Dynamic_Swoosh.png has transparent padding (artwork is 1233x476 inside 1341x894). This frames only the artwork so Theme settings > Logo width = the visible width. If you upload a different logo, delete these two lines. */\n.header__heading-link.media{--ratio-percent:38.6%!important}\n.header__heading-link.media .header__heading-logo{position:absolute!important;max-width:none!important;width:108.76%!important;height:187.82%!important;left:-3.89%!important;top:-42.23%!important;object-fit:fill!important;filter:none!important;transform:none!important}\n.vs-foot__logo img{margin:-45px 0}\n</style>\n{%- comment -%} Volt motion: animations run only for visitors who allow motion, never in the theme editor. Delete these 3 lines to turn all animation off. {%- endcomment -%}\n<script>(function(){if(window.matchMedia&&matchMedia('(prefers-reduced-motion: no-preference)').matches&&!(window.Shopify&&Shopify.designMode)){document.documentElement.classList.add('vm');setTimeout(function(){if(!window.voltMotion)document.documentElement.classList.remove('vm')},3000)}})();</script>\n<link rel='stylesheet' href='{{ 'volt-motion.css' | asset_url }}'>\n<script src='{{ 'volt-motion.js' | asset_url }}' defer></script>\n{% render 'bf-countdown' %}",
+        "color_scheme": "background-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "2c2ec774-3430-481f-b927-e9c035b9d24e": {
+      "type": "horizontal-ticker",
+      "blocks": {
+        "announce_1": {
+          "type": "text",
+          "settings": {
+            "title": "Battery powered / plug and play lights!"
+          }
+        },
+        "announce_2": {
+          "type": "text",
+          "settings": {
+            "title": "Battery powered / plug and play lights!"
+          }
+        }
+      },
+      "block_order": [
+        "announce_1",
+        "announce_2"
+      ],
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "speed": 1.5,
+        "direction": "normal",
+        "stop_on_hover": false,
+        "mobile_spacing": 60,
+        "desktop_spacing": 100,
+        "color_scheme": "inverse",
+        "mobile_text_size": 16,
+        "desktop_text_size": 20,
+        "italic_text": true,
+        "uppercase_text": true,
+        "bold_text": true,
+        "mobile_image_height": 26,
+        "desktop_image_height": 40,
+        "mobile_video_height": 150,
+        "desktop_video_height": 250,
+        "mobile_reviews_width": 300,
+        "desktop_reviews_width": 400,
+        "hidden_products": "",
+        "enable_specific_display": false,
+        "displayed_products": "",
+        "mobile_padding_top": 12,
+        "mobile_padding_bottom": 12,
+        "desktop_padding_top": 16,
+        "desktop_padding_bottom": 16,
+        "custom_colors_background": "#0a0a0a",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#ffffff"
+      }
+    },
+    "header": {
+      "type": "header",
+      "name": "contact",
+      "settings": {
+        "sticky_header_type": "always",
+        "show_line_separator": true,
+        "color_scheme": "background-1",
+        "icons_thickness": 2,
+        "icons_opacity": 100,
+        "text_icons_size": 15,
+        "text_icons_mobile_size": 13,
+        "text_icons_font": "body",
+        "menu_icon": "style_1",
+        "menu_icon_text": "Menu",
+        "search_icon": "style_1",
+        "search_icon_text": "SEARCH",
+        "account_icon": "style_2",
+        "account_icon_text": "ACCOUNT",
+        "cart_icon": "cart_1",
+        "cart_icon_text": "CART",
+        "logo_link": "/",
+        "logo_position": "middle-center",
+        "menu": "volt-main-menu",
+        "menu_type_desktop": "drawer",
+        "highlight_active_link": true,
+        "highlighted_link_color_scheme": "accent-1",
+        "desktop_menu_font_size": 16,
+        "desktop_menu_font": "body",
+        "products_mega_menu_links": "",
+        "products_mega_menu_display_collection_products": true,
+        "products_mega_menu_display_collection_images": true,
+        "products_mega_menu_display_collection_images_on_mobile": true,
+        "mobile_menu_title": "Menu",
+        "secondary_menu": "",
+        "menu_color_scheme": "background-1",
+        "mobile_logo_position": "center",
+        "enable_country_selector": false,
+        "country_images_ratio": "circle",
+        "country_selector_selected_flags_desktop": true,
+        "country_selector_selected_text_desktop": "[country_name] | [currency_code] [currency_symbol]",
+        "country_selector_selected_flags_mobile": true,
+        "country_selector_selected_text_mobile": "[country_code] | [currency_symbol]",
+        "country_selector_options_flags": true,
+        "country_selector_options_text": "[country_name] | [currency_code] [currency_symbol]",
+        "enable_language_selector": false,
+        "language_selector_selected_text_desktop": "[local_name]",
+        "language_selector_selected_text_mobile": "[code]",
+        "language_selector_options_text": "[name] ([local_name])",
+        "display_search": true,
+        "margin_bottom": 0,
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    }
+  },
+  "order": [
+    "volt_fonts",
+    "2c2ec774-3430-481f-b927-e9c035b9d24e",
+    "header"
+  ]
+}

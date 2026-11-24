@@ -1,0 +1,27 @@
+{%- comment -%}
+  One review. Usage: {% render 'volt-review-card', review: r, show_product: true %}
+{%- endcomment -%}
+{%- assign vr_name = review.author.value | strip -%}
+{%- assign vr_parts = vr_name | split: ' ' -%}
+{%- if vr_parts.size > 1 -%}
+  {%- assign vr_last = vr_parts | last | slice: 0 -%}
+  {%- assign vr_name = vr_parts.first | append: ' ' | append: vr_last | append: '.' -%}
+{%- endif -%}
+<article class="vr-card">
+  <div class="vr-card__top">
+    {%- render 'volt-stars', rating: review.rating.value, size: 15 -%}
+    {%- if review.review_date.value != blank -%}<time class="vr-card__date" datetime="{{ review.review_date.value }}">{{ review.review_date.value | date: '%b %-d, %Y' }}</time>{%- endif -%}
+  </div>
+  {%- if review.body.value != blank -%}
+    <p class="vr-card__body">{{ review.body.value | escape | newline_to_br }}</p>
+  {%- endif -%}
+  <div class="vr-card__meta">
+    <span class="vr-card__name">{{ vr_name | escape }}</span>
+    <span class="vr-card__badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified Shop buyer</span>
+  </div>
+  {%- if show_product and review.product.value != blank -%}
+    <a class="vr-card__product" href="{{ review.product.value.url }}">{{ review.product.value.title | escape }}{% if review.variant.value != blank %} · {{ review.variant.value | escape }}{% endif %}</a>
+  {%- elsif review.variant.value != blank -%}
+    <span class="vr-card__product vr-card__product--plain">{{ review.variant.value | escape }}</span>
+  {%- endif -%}
+</article>

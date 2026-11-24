@@ -1,0 +1,182 @@
+:root{--vs-ink:#0a0a0a;--vs-mute:#6b6f76;--vs-dimc:#8b8f97;--vs-line:#dadada;--vs-bebas:'Bebas Neue',Oswald,'Arial Narrow',sans-serif;--vs-mono:'JetBrains Mono',ui-monospace,monospace;--vs-sans:'Inter Tight',Inter,system-ui,sans-serif}
+
+/* Announcement ticker: mono italic like Shyft */
+.horizontal-ticker__item{font-family:var(--vs-mono)!important;letter-spacing:.04em}
+
+/* Buttons */
+.vs-btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:58px;padding:0 36px;border-radius:12px;font-family:var(--vs-mono);font-size:15px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;transition:opacity .15s;white-space:nowrap;box-sizing:border-box}
+.vs-btn:hover{opacity:.85}
+.vs-btn--dark{background:var(--vs-ink);color:#fff}
+.vs-btn--light{background:#fff;color:var(--vs-ink)}
+.vs-btn--sm{min-height:50px;padding:0 28px;font-size:14px}
+.vs-btn--lg{min-height:66px;padding:0 46px}
+.vs-btn svg{width:18px;height:18px;flex:none}
+
+/* Shared headings */
+.vs-head{text-align:center;padding:0 16px}
+.vs-eyebrow{font-family:var(--vs-mono);font-size:15px;letter-spacing:.3em;text-transform:uppercase;color:var(--vs-mute);margin:0}
+.vs-h2{font-family:var(--vs-bebas);font-weight:400;font-size:clamp(46px,6.4vw,92px);line-height:.95;text-transform:uppercase;margin:8px 0 0;letter-spacing:0;color:var(--vs-ink)}
+.vs-dim{color:var(--vs-dimc)}
+
+/* Hero */
+.vs-hero{position:relative;min-height:var(--vs-h,85vh);display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:#000;color:#fff}
+.vs-hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:var(--vs-focal,center)}
+.vs-hero__shade{position:absolute;inset:0;background:#000}
+.vs-hero__inner{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;gap:26px;padding:96px 20px;max-width:1240px}
+.vs-hero__inner::before{content:'';position:absolute;inset:6% -14%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(0,0,0,.62),rgba(0,0,0,.38) 55%,rgba(0,0,0,0))}
+.vs-hero__title{font-family:var(--vs-bebas);font-weight:400;font-size:clamp(64px,11vw,168px);line-height:.9;letter-spacing:.005em;text-transform:uppercase;margin:0;color:#fff;text-shadow:0 2px 28px rgba(0,0,0,.45)}
+.vs-hero__sub{font-family:var(--vs-mono);font-size:15px;font-weight:700;letter-spacing:.18em;line-height:1.6;text-transform:uppercase;margin:0;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+
+/* Shop the essentials carousel */
+.vs-ess{padding:88px 0 64px}
+.vs-ess__wrap{position:relative;margin-top:36px}
+.vs-ess__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;padding:0 16px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.vs-ess__track::-webkit-scrollbar{display:none}
+.vs-ess__card{position:relative;flex:0 0 min(420px,80vw);height:580px;scroll-snap-align:start;border-radius:14px;overflow:hidden;background:#1b1b1e;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;text-align:center;padding:36px 20px;box-sizing:border-box;gap:10px}
+.vs-ess__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vs-ess__shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 36%,rgba(0,0,0,.8) 100%)}
+.vs-ess__card>*:not(.vs-ess__img):not(.vs-ess__shade){position:relative}
+.vs-ess__count{font-family:var(--vs-mono);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:#e4e4e6}
+.vs-ess__title{font-family:var(--vs-bebas);font-weight:400;font-size:54px;line-height:.95;text-transform:uppercase;margin:0 0 8px;color:#fff}
+.vs-ess__arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:60px;height:60px;border-radius:50%;border:0;background:rgba(10,10,10,.92);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.vs-ess__arrow--prev{left:28px}.vs-ess__arrow--next{right:28px}
+.vs-ess__arrow svg{width:24px;height:24px}
+
+/* Scrolling text */
+.vs-marq{overflow:hidden;padding:36px 0}
+.vs-marq__track{display:flex;width:max-content;animation:vsMarq linear infinite}
+.vs-marq__track span{padding-right:64px;white-space:nowrap;font-family:var(--vs-bebas);font-size:64px;line-height:1;text-transform:uppercase;color:var(--vs-ink)}
+@keyframes vsMarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.vs-marq__track{animation:none}}
+
+/* #1 sellers grid */
+.vs-best{padding:72px 24px 88px;max-width:1200px;margin:0 auto;box-sizing:border-box;text-align:center}
+.vs-best__eyebrow{font-family:var(--vs-mono);font-size:15px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;margin:0;color:var(--vs-ink)}
+.vs-best__all{display:inline-block;margin-top:16px;font-family:var(--vs-mono);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--vs-ink);text-decoration:underline;text-underline-offset:6px}
+.vs-best__grid{--vs-gx:16px;display:flex;flex-wrap:wrap;justify-content:center;column-gap:var(--vs-gx);row-gap:40px;margin-top:40px;text-align:left}
+.vs-best__grid>.vs-prod{flex:0 0 calc((100% - var(--vs-gx)) / 2);min-width:0}
+@media(min-width:990px){.vs-best__grid{--vs-gx:24px;row-gap:56px}.vs-best__grid>.vs-prod{flex-basis:calc((100% - (var(--vs-cols,3) - 1) * var(--vs-gx)) / var(--vs-cols,3))}}
+.vs-prod{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--vs-ink)}
+.vs-prod__img{position:relative;aspect-ratio:var(--vs-ratio,4 / 5);background:#efefef;border-radius:12px;overflow:hidden}
+.vs-prod__img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.vs-prod:hover .vs-prod__img img{transform:scale(1.03)}
+.vs-prod__ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;background:var(--vs-ink);color:#fff;font-family:var(--vs-bebas);font-size:clamp(28px,3.4vw,46px);line-height:1;text-align:center;text-transform:uppercase}
+.vs-prod__tag{position:absolute;top:10px;left:10px;background:var(--vs-ink);color:#fff;font-family:var(--vs-mono);font-size:11px;font-weight:700;letter-spacing:.12em;padding:6px 9px;border-radius:6px;text-transform:uppercase}
+.vs-prod__vendor{font-family:var(--vs-mono);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-top:8px}
+.vs-prod__title{font-size:17px;font-weight:500;line-height:1.3;letter-spacing:-.01em}
+.vs-prod__price{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px;row-gap:2px;font-family:var(--vs-bebas);font-size:32px;line-height:1}
+.vs-prod__was{font-family:var(--vs-sans);font-size:15px;color:var(--vs-mute);text-decoration:line-through}
+
+/* Featured builds */
+.vs-builds{padding:24px 0 88px}
+.vs-builds__head{max-width:1400px;margin:0 auto;padding:0 24px;box-sizing:border-box}
+.vs-builds__title{margin:0;font-size:clamp(40px,5.6vw,80px);line-height:1}
+.vs-builds__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;padding:32px 24px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.vs-builds__track::-webkit-scrollbar{display:none}
+.vs-builds__item{flex:0 0 min(460px,80vw);scroll-snap-align:start;display:flex;flex-direction:column;gap:10px}
+.vs-builds__item img{width:100%;height:600px;object-fit:cover;display:block;border-radius:14px}
+.vs-builds__cap{font-family:var(--vs-mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--vs-mute)}
+
+/* Stock vs Volt table */
+.vs-cmp{padding:72px 24px 96px;max-width:1100px;margin:0 auto;box-sizing:border-box}
+.vs-cmp__title{font-family:var(--vs-bebas);font-weight:400;font-size:clamp(52px,8.4vw,120px);line-height:.95;text-transform:uppercase;margin:0;text-align:center;color:var(--vs-ink)}
+.vs-cmp__sub{margin-top:18px;font-family:var(--vs-mono);font-size:15px;letter-spacing:.28em;line-height:1.7;color:var(--vs-mute);text-transform:uppercase;text-align:center}
+.vs-cmp__table{margin-top:48px;border:1px solid var(--vs-line);border-radius:20px;overflow:hidden;background:#fff}
+.vs-cmp__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr);border-top:1px solid #e4e4e4}
+.vs-cmp__row--head{border-top:0;background:var(--vs-ink);color:#fff;font-family:var(--vs-mono);font-size:14px;letter-spacing:.24em;text-transform:uppercase}
+.vs-cmp__row--head>div{padding:28px 20px}
+.vs-cmp__row--head>div:nth-child(2){text-align:center;background:#17171a}
+.vs-cmp__row--head>div:nth-child(3){text-align:center;background:#000}
+.vs-cmp__attr{padding:24px 20px;font-weight:700;font-size:18px;letter-spacing:-.01em;display:flex;align-items:center}
+.vs-cmp__stock{padding:24px 16px;text-align:center;color:var(--vs-mute);font-size:17px;line-height:1.35;display:flex;align-items:center;justify-content:center}
+.vs-cmp__volt{padding:20px 16px;text-align:center;border-left:4px solid var(--vs-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:17px;line-height:1.35;font-weight:600}
+.vs-cmp__best{display:inline-flex;align-items:center;gap:7px;background:var(--vs-ink);color:#fff;border-radius:999px;padding:7px 16px;font-family:var(--vs-mono);font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.vs-cmp__best svg{width:13px;height:13px}
+.vs-cmp__cta{margin-top:52px;text-align:center}
+
+/* Why riders choose us */
+.vs-why{padding:40px 24px 104px;max-width:1400px;margin:0 auto;box-sizing:border-box}
+.vs-why__title{margin:0 0 48px;text-align:center;font-family:var(--vs-bebas);font-weight:400;font-size:clamp(48px,6.6vw,96px);line-height:.95;text-transform:uppercase;color:var(--vs-ink)}
+.vs-why__grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:750px){.vs-why__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1100px){.vs-why__grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.vs-why__card{border:1px solid var(--vs-line);border-radius:20px;padding:36px 32px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;box-sizing:border-box}
+.vs-why__num{font-family:var(--vs-mono);font-size:14px;letter-spacing:.14em;color:var(--vs-mute)}
+.vs-why__icon{display:flex;width:60px;height:60px;border-radius:50%;background:var(--vs-ink);align-items:center;justify-content:center}
+.vs-why__icon svg{width:26px;height:26px}
+.vs-why__ctitle{margin:0;font-family:var(--vs-bebas);font-weight:400;font-size:42px;line-height:1;text-transform:uppercase;color:var(--vs-ink)}
+.vs-why__text{margin:0;font-size:18px;line-height:1.55;color:var(--vs-mute)}
+
+/* Signup band + footer */
+.vs-sign{background:var(--vs-ink);color:#fff;padding:80px 24px}
+.vs-sign__in{max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;gap:32px 64px;align-items:center;justify-content:space-between}
+.vs-sign__txt{flex:1 1 360px;min-width:0}
+.vs-sign__title{margin:0;font-family:var(--vs-bebas);font-weight:400;font-size:clamp(52px,6vw,88px);line-height:.95;text-transform:uppercase;color:#fff}
+.vs-sign__p{margin:12px 0 0;font-size:19px;line-height:1.5;color:#d0d0d3}
+.vs-sign__form{flex:1 1 380px;min-width:0;display:flex;flex-wrap:wrap;gap:12px}
+.vs-sign__form input{flex:1 1 220px;min-width:0;min-height:58px;padding:0 20px;border:2px solid #fff;border-radius:10px;background:var(--vs-ink);font-family:var(--vs-sans);font-size:17px;color:#fff;box-sizing:border-box}
+.vs-sign__form button{min-height:58px;padding:0 32px;background:#fff;color:var(--vs-ink);border:0;border-radius:10px;font-family:var(--vs-mono);font-size:15px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
+.vs-foot{padding:72px 24px 56px;text-align:center;background:#fff;color:var(--vs-ink)}
+.vs-foot__copy{font-size:18px;color:var(--vs-mute);margin:0}
+.vs-foot__pol{display:inline-block;margin-top:24px;font-size:18px;color:var(--vs-mute);text-decoration:none}
+.vs-foot__bottom{max-width:1400px;margin:64px auto 0;display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between;text-align:left}
+.vs-foot__logo img{width:150px;height:auto;display:block;filter:brightness(0)}
+.vs-foot__social{display:flex;gap:20px;align-items:center}
+.vs-foot__social a{display:flex;width:44px;height:44px;align-items:center;justify-content:center;color:var(--vs-ink)}
+.vs-foot__social svg{width:30px;height:30px}
+
+/* Phones */
+@media(max-width:749px){
+  .vs-btn{min-height:52px;padding:0 24px;font-size:13px;letter-spacing:.18em}
+  .vs-btn--sm{min-height:46px;padding:0 22px;font-size:12px}
+  .vs-btn--lg{min-height:58px;padding:0 32px}
+  .vs-eyebrow{font-size:12px;letter-spacing:.26em}
+  .vs-hero__inner{gap:20px;padding:72px 16px}
+  .vs-hero__sub{font-size:12px;letter-spacing:.14em}
+  .vs-ess{padding:64px 0 40px}
+  .vs-ess__wrap{margin-top:28px}
+  .vs-ess__card{height:500px;padding:28px 16px}
+  .vs-ess__title{font-size:46px}
+  .vs-ess__count{font-size:12px}
+  .vs-ess__arrow{width:48px;height:48px}
+  .vs-ess__arrow--prev{left:12px}.vs-ess__arrow--next{right:12px}
+  .vs-ess__arrow svg{width:20px;height:20px}
+  .vs-marq{padding:28px 0}
+  .vs-marq__track span{font-size:46px;padding-right:40px}
+  .vs-best{padding:56px 16px 64px}
+  .vs-best__eyebrow{font-size:12px;letter-spacing:.2em}
+  .vs-best__all{font-size:12px}
+  .vs-best__grid{--vs-gx:12px;margin-top:32px;row-gap:32px}
+  .vs-prod__vendor{font-size:11px;letter-spacing:.12em}
+  .vs-prod__title{font-size:15px}
+  .vs-prod__price{font-size:27px}
+  .vs-prod__was{font-size:13px}
+  .vs-builds{padding:16px 0 64px}
+  .vs-builds__head{padding:0 16px}
+  .vs-builds__track{padding:24px 16px 8px;scroll-padding:0 16px}
+  .vs-builds__item img{height:470px}
+  .vs-cmp{padding:56px 16px 72px}
+  .vs-cmp__sub{font-size:12px;letter-spacing:.18em}
+  .vs-cmp__table{margin-top:32px;border-radius:16px}
+  .vs-cmp__row{grid-template-columns:minmax(0,.95fr) minmax(0,1fr) minmax(0,1.15fr)}
+  .vs-cmp__row--head{font-size:11px;letter-spacing:.12em}
+  .vs-cmp__row--head>div{padding:18px 10px}
+  .vs-cmp__attr{padding:16px 10px;font-size:14px}
+  .vs-cmp__stock{padding:16px 8px;font-size:13px}
+  .vs-cmp__volt{padding:14px 8px;font-size:13px;gap:8px;border-left-width:3px}
+  .vs-cmp__best{font-size:10px;letter-spacing:.14em;padding:5px 10px;gap:5px}
+  .vs-cmp__best svg{width:11px;height:11px}
+  .vs-cmp__cta{margin-top:36px}
+  .vs-why{padding:24px 16px 72px}
+  .vs-why__title{margin-bottom:32px}
+  .vs-why__card{padding:28px 24px;gap:14px}
+  .vs-why__icon{width:54px;height:54px}
+  .vs-why__ctitle{font-size:36px}
+  .vs-why__text{font-size:16px}
+  .vs-sign{padding:56px 16px}
+  .vs-sign__p{font-size:16px}
+  .vs-sign__form button{flex:1 1 100%}
+  .vs-foot{padding:56px 16px 40px}
+  .vs-foot__copy,.vs-foot__pol{font-size:15px}
+  .vs-foot__bottom{margin-top:48px}
+}

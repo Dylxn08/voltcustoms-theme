@@ -1,0 +1,19 @@
+{%- assign cmp_link = section.settings.button_link | default: routes.all_products_collection_url -%}
+<section class='vs-cmp' id='vs-cmp-{{ section.id }}'>
+  <h2 class='vs-cmp__title'>{{ section.settings.title_main | escape }}{% if section.settings.title_dim != blank %} <span class='vs-dim'>{{ section.settings.title_dim | escape }}</span>{% endif %}</h2>
+  {%- if section.settings.subtitle != blank -%}<div class='vs-cmp__sub'>{{ section.settings.subtitle | escape }}</div>{%- endif -%}
+  <div class='vs-cmp__table'>
+    <div class='vs-cmp__row vs-cmp__row--head'><div>{{ section.settings.col_attr | escape }}</div><div>{{ section.settings.col_stock | escape }}</div><div>{{ section.settings.col_volt | escape }}</div></div>
+    {%- for block in section.blocks -%}
+      <div class='vs-cmp__row' {{ block.shopify_attributes }}>
+        <div class='vs-cmp__attr'>{{ block.settings.attribute | escape }}</div>
+        <div class='vs-cmp__stock'>{{ block.settings.stock | escape }}</div>
+        <div class='vs-cmp__volt'><span>{{ block.settings.volt | escape }}</span><span class='vs-cmp__best'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12l5 5 9-10'/></svg>{{ section.settings.best_label | escape }}</span></div>
+      </div>
+    {%- endfor -%}
+  </div>
+  {%- if section.settings.button_label != blank -%}
+    <div class='vs-cmp__cta'><a class='vs-btn vs-btn--dark vs-btn--lg' href='{{ cmp_link }}'>{{ section.settings.button_label | escape }}<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M5 12h14M13 6l6 6-6 6'/></svg></a></div>
+  {%- endif -%}
+</section>
+{% schema %}{"name":"Volt stock vs Volt table","settings":[{"type":"text","id":"title_main","label":"Title","default":"Stock vs Volt Customs"},{"type":"text","id":"title_dim","label":"Title (grey part)","default":"lights"},{"type":"text","id":"subtitle","label":"Subtitle","default":"See what you are missing after dark"},{"type":"text","id":"col_attr","label":"Column 1","default":"Attribute"},{"type":"text","id":"col_stock","label":"Column 2","default":"Stock"},{"type":"text","id":"col_volt","label":"Column 3","default":"Volt"},{"type":"text","id":"best_label","label":"Badge text","default":"Best"},{"type":"text","id":"button_label","label":"Button label","default":"Shop lighting"},{"type":"url","id":"button_link","label":"Button link"}],"blocks":[{"type":"row","name":"Row","settings":[{"type":"text","id":"attribute","label":"Attribute","default":"Install"},{"type":"text","id":"stock","label":"Stock","default":"Stock value"},{"type":"text","id":"volt","label":"Volt","default":"Volt value"}]}],"max_blocks":10,"presets":[{"name":"Volt stock vs Volt table"}]}{% endschema %}

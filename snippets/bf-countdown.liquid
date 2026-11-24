@@ -1,0 +1,62 @@
+{%- comment -%}
+  Black Friday 2026 countdown bar (rendered from the header group's "Volt fonts and styles" section).
+  Before Fri Nov 27 12:00 AM PT it counts down to the start; during the sale it counts down to Mon Nov 30 11:59 PM PT; after that it hides itself.
+  Phones (under 750px wide) get a shorter deal line so the bar stays at two lines.
+  To remove it, delete the render 'bf-countdown' line in that section.
+{%- endcomment -%}
+{%- assign bf_now = 'now' | date: '%s' | plus: 0 -%}
+{%- if bf_now < 1796111999 -%}
+<div id="bf-countdown" class="bf-cd" data-start="1795766400" data-end="1796111999" hidden>
+  <a class="bf-cd__link" href="/">
+    <span class="bf-cd__top">
+      <span class="bf-cd__label" data-bf-label>Black Friday starts in</span>
+      <span class="bf-cd__time" data-bf-time>&nbsp;</span>
+    </span>
+    <span class="bf-cd__deal">
+      <span class="bf-cd__full" data-bf-full>25% off sitewide + free spinner with any order. Nov 27 to 30.</span>
+      <span class="bf-cd__short" data-bf-short>25% off sitewide + free spinner, Nov 27 to 30</span>
+    </span>
+  </a>
+</div>
+<style>
+  .bf-cd{background:#fff;color:#0a0a0a;border-bottom:1px solid #dadada;text-align:center}
+  .bf-cd[hidden]{display:none}
+  .bf-cd__link{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 14px;padding:10px 16px;color:inherit;text-decoration:none}
+  .bf-cd__top{display:inline-flex;align-items:center;gap:14px;white-space:nowrap}
+  .bf-cd__label{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  .bf-cd__time{font-family:'Bebas Neue',Oswald,'Arial Narrow',sans-serif;font-size:28px;line-height:1;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+  .bf-cd__deal{font-family:'Inter Tight',Inter,system-ui,sans-serif;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+  .bf-cd__short{display:none}
+  @media(max-width:749px){
+    .bf-cd__link{flex-direction:column;gap:3px;padding:8px 10px}
+    .bf-cd__top{gap:10px}
+    .bf-cd__label{font-size:11px;letter-spacing:.12em}
+    .bf-cd__time{font-size:22px}
+    .bf-cd__deal{font-size:12.5px;line-height:1.3}
+    .bf-cd__full{display:none}
+    .bf-cd__short{display:inline}
+  }
+  @media(max-width:359px){.bf-cd__label{font-size:10px;letter-spacing:.08em}.bf-cd__time{font-size:20px}.bf-cd__top{gap:8px}}
+</style>
+<script>
+  (function(){
+    var el=document.getElementById('bf-countdown');
+    if(!el)return;
+    var start=+el.dataset.start*1000,end=+el.dataset.end*1000;
+    var label=el.querySelector('[data-bf-label]'),time=el.querySelector('[data-bf-time]'),full=el.querySelector('[data-bf-full]'),short=el.querySelector('[data-bf-short]');
+    function pad(n){return n<10?'0'+n:''+n}
+    function tick(){
+      var now=Date.now();
+      if(now>=end){el.hidden=true;clearInterval(t);return;}
+      var target=now<start?start:end;
+      if(now<start){label.textContent='Black Friday starts in';full.textContent='25% off sitewide + free spinner with any order. Nov 27 to 30.';short.textContent='25% off sitewide + free spinner, Nov 27 to 30';}
+      else{label.textContent='Sale ends in';full.textContent='25% off sitewide + free spinner with any order. Add the spinner to your cart.';short.textContent='25% off sitewide + add a free spinner';}
+      var s=Math.max(0,Math.floor((target-now)/1000));
+      var d=Math.floor(s/86400);s%=86400;var h=Math.floor(s/3600);s%=3600;var m=Math.floor(s/60);s%=60;
+      time.textContent=(d>0?d+'d ':'')+pad(h)+'h '+pad(m)+'m '+pad(s)+'s';
+      el.hidden=false;
+    }
+    var t=setInterval(tick,1000);tick();
+  })();
+</script>
+{%- endif -%}

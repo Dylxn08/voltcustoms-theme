@@ -1,0 +1,28 @@
+{%- assign pol_link = section.settings.policy_link | default: '/policies/terms-of-service' -%}
+{%- assign foot_logo = section.settings.logo | default: settings.logo -%}
+{%- if section.settings.show_signup -%}
+<div class='vs-sign'>
+  <div class='vs-sign__in'>
+    <div class='vs-sign__txt'><h2 class='vs-sign__title'>{{ section.settings.signup_title | escape }}</h2><p class='vs-sign__p'>{{ section.settings.signup_text | escape }}</p></div>
+    {%- form 'customer', class: 'vs-sign__form', id: 'VsFooterSignup' -%}
+      <input type='hidden' name='contact[tags]' value='newsletter'>
+      <input type='email' name='contact[email]' required autocomplete='email' placeholder='Email' aria-label='Email address' value='{{ form.email }}'>
+      <button type='submit'>{{ section.settings.signup_button | escape }}</button>
+      {%- if form.posted_successfully? -%}<p style='flex:1 1 100%;margin:0;color:#d0d0d3'>Thanks for subscribing!</p>{%- endif -%}
+      {%- if form.errors -%}<p style='flex:1 1 100%;margin:0;color:#ffb4b4'>{{ form.errors.messages['email'] | default: 'Please check your email address.' }}</p>{%- endif -%}
+    {%- endform -%}
+  </div>
+</div>
+{%- endif -%}
+<footer class='vs-foot'>
+  <p class='vs-foot__copy'>© {{ 'now' | date: '%Y' }} {{ shop.name | escape }}, Powered by Shopify</p>
+  <a class='vs-foot__pol' href='{{ pol_link }}'>Terms and Policies</a>
+  <div class='vs-foot__bottom'>
+    <a class='vs-foot__logo' href='/' aria-label='{{ shop.name | escape }}'>{%- if foot_logo != blank -%}{{ foot_logo | image_url: width: 300 | image_tag: loading: 'lazy', alt: shop.name }}{%- endif -%}</a>
+    <div class='vs-foot__social'>
+      {%- if section.settings.instagram != blank -%}<a href='{{ section.settings.instagram }}' aria-label='Instagram' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='3' width='18' height='18' rx='5'/><circle cx='12' cy='12' r='4'/><circle cx='17.5' cy='6.5' r='1' fill='currentColor'/></svg></a>{%- endif -%}
+      {%- if section.settings.tiktok != blank -%}<a href='{{ section.settings.tiktok }}' aria-label='TikTok' target='_blank' rel='noopener'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M15 3v10.5a4.5 4.5 0 1 1-4.5-4.5M15 3c.4 2.6 2 4.2 4.5 4.5'/></svg></a>{%- endif -%}
+    </div>
+  </div>
+</footer>
+{% schema %}{"name":"Volt footer","settings":[{"type":"checkbox","id":"show_signup","label":"Show email signup band","default":true},{"type":"text","id":"signup_title","label":"Signup title","default":"Join the ride."},{"type":"text","id":"signup_text","label":"Signup text","default":"Exclusive offers and the latest drops, straight to your inbox."},{"type":"text","id":"signup_button","label":"Signup button","default":"Sign up"},{"type":"image_picker","id":"logo","label":"Footer logo (uses store logo if empty)"},{"type":"url","id":"policy_link","label":"Terms and Policies link"},{"type":"url","id":"instagram","label":"Instagram link"},{"type":"url","id":"tiktok","label":"TikTok link"}],"presets":[{"name":"Volt footer"}]}{% endschema %}

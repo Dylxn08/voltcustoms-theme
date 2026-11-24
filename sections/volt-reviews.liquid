@@ -1,0 +1,71 @@
+{%- comment -%}
+  Product page reviews. Data: product.metafields.volt.{reviews,rating,review_count,breakdown}
+  filled from the Shop app. Hidden when the product has no reviews.
+{%- endcomment -%}
+{%- assign vr_count = product.metafields.volt.review_count.value | default: 0 -%}
+{%- if vr_count > 0 -%}
+{{ 'volt-reviews.css' | asset_url | stylesheet_tag }}
+{%- assign vr_avg = product.metafields.volt.rating.value | times: 1.0 -%}
+{%- assign vr_bd = product.metafields.volt.breakdown.value -%}
+{%- assign vr_per = section.settings.per_page -%}
+<section class="vr" id="volt-reviews">
+  <div class="vr__inner">
+    <div class="vr__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="vr__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2 class="vr__title">{{ section.settings.title | escape }}</h2>
+    </div>
+    <div class="vr__layout">
+      <aside class="vr__summary">
+        <div class="vr__avg">{{ vr_avg | round: 1 }}</div>
+        {%- render 'volt-stars', rating: vr_avg, size: 22 -%}
+        {%- assign vr_written = product.metafields.volt.reviews.value | size -%}
+        <p class="vr__based">{{ vr_count }} verified Shop {% if vr_count == 1 %}rating{% else %}ratings{% endif %}{% if vr_written > 0 %} · {{ vr_written }} written{% endif %}</p>
+        {%- if vr_bd != blank -%}
+          <ul class="vr__bars">
+            {%- for vr_s in (1..5) reversed -%}
+              {%- assign vr_key = vr_s | append: '' -%}
+              {%- assign vr_n = vr_bd[vr_key] | default: 0 -%}
+              {%- assign vr_pct = vr_n | times: 100.0 | divided_by: vr_count | round: 1 -%}
+              <li>
+                <span class="vr__bar-label">{{ vr_s }} star</span>
+                <span class="vr__bar"><i style="width:{{ vr_pct }}%"></i></span>
+                <span class="vr__bar-n">{{ vr_n }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </aside>
+      <div class="vr__list" data-vr-list>
+        {%- assign vr_shown = 0 -%}
+          {%- for vr_r in product.metafields.volt.reviews.value -%}
+            {%- if section.settings.hide_empty and vr_r.body.value == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign vr_shown = vr_shown | plus: 1 -%}
+            <div class="vr__item"{% if vr_shown > vr_per %} hidden{% endif %}>
+              {%- render 'volt-review-card', review: vr_r, show_product: false -%}
+            </div>
+          {%- endfor -%}
+        {%- if vr_shown > vr_per -%}
+          <button type="button" class="vr__more" data-vr-more data-step="{{ vr_per }}">Show more reviews</button>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){var s=document.getElementById('volt-reviews');if(!s)return;var b=s.querySelector('[data-vr-more]');if(!b)return;var step=parseInt(b.dataset.step,10)||6;b.addEventListener('click',function(){var h=s.querySelectorAll('.vr__item[hidden]');for(var i=0;i<h.length&&i<step;i++)h[i].hidden=false;if(h.length<=step)b.remove();});})();
+</script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Volt reviews (Shop)",
+  "settings": [
+    { "type": "paragraph", "content": "Shows this product's Shop app reviews. Hidden automatically when a product has none." },
+    { "type": "text", "id": "eyebrow", "label": "Small text above", "default": "From real riders" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Reviews" },
+    { "type": "range", "id": "per_page", "label": "Reviews shown before 'Show more'", "min": 3, "max": 24, "step": 1, "default": 6 },
+    { "type": "checkbox", "id": "hide_empty", "label": "Hide star-only reviews from the list (still counted in the average)", "default": true }
+  ],
+  "presets": [{ "name": "Volt reviews (Shop)" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

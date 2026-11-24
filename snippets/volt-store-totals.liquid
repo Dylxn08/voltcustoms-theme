@@ -1,0 +1,24 @@
+{%- comment -%}
+  Prints "AVERAGE|COUNT" for the store's Shop reviews, e.g. "4.6|536".
+  Uses Shop's official store-wide numbers (shop.metafields.volt.store_rating / store_rating_count)
+  when set; otherwise adds up the product numbers.
+  Capture it:  {% capture t %}{% render 'volt-store-totals' %}{% endcapture %}
+{%- endcomment -%}
+{%- assign vt_official = shop.metafields.volt.store_rating_count.value | default: 0 -%}
+{%- if vt_official > 0 -%}
+  {{- shop.metafields.volt.store_rating.value | times: 1.0 | round: 1 -}}|{{- vt_official -}}
+{%- else -%}
+  {%- assign vt_count = 0 -%}
+  {%- assign vt_sum = 0.0 -%}
+  {%- paginate collections.all.products by 250 -%}
+    {%- for vt_p in collections.all.products -%}
+      {%- assign vt_c = vt_p.metafields.volt.review_count.value | default: 0 -%}
+      {%- if vt_c > 0 -%}
+        {%- assign vt_part = vt_p.metafields.volt.rating.value | times: vt_c -%}
+        {%- assign vt_sum = vt_sum | plus: vt_part -%}
+        {%- assign vt_count = vt_count | plus: vt_c -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endpaginate -%}
+  {%- if vt_count > 0 -%}{{ vt_sum | divided_by: vt_count | round: 1 }}{%- else -%}0{%- endif -%}|{{ vt_count }}
+{%- endif -%}

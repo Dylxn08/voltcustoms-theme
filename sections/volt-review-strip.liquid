@@ -1,0 +1,57 @@
+{%- comment -%}
+  Homepage strip of Shop reviews. Pick reviews in the editor, or leave empty to auto-show
+  the newest written reviews at or above the minimum rating.
+{%- endcomment -%}
+{{ 'volt-reviews.css' | asset_url | stylesheet_tag }}
+{%- capture vs_t -%}{%- render 'volt-store-totals' -%}{%- endcapture -%}
+{%- assign vs_parts = vs_t | strip | split: '|' -%}
+{%- assign vs_avg = vs_parts[0] | times: 1.0 -%}
+{%- assign vs_count = vs_parts[1] | times: 1 -%}
+{%- if vs_count > 0 -%}
+<section class="vr vr--strip" id="vr-strip-{{ section.id }}">
+  <div class="vr__inner">
+    <div class="vr__head vr__head--row">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}<p class="vr__eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="vr__title">{{ section.settings.title | escape }}</h2>
+      </div>
+      {%- if vs_count > 0 -%}
+        <div class="vr__total">
+          {%- render 'volt-stars', rating: vs_avg, size: 18 -%}
+          <span><strong>{{ vs_avg }}</strong> from {{ vs_count }} Shop ratings</span>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="vr__track">
+      {%- assign vs_n = 0 -%}
+      {%- if section.settings.reviews != blank -%}
+        {%- for vs_r in section.settings.reviews -%}
+          <div class="vr__slide">{%- render 'volt-review-card', review: vs_r, show_product: true -%}</div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for vs_r in shop.metafields.volt.recent_reviews.value -%}
+          {%- assign vs_len = vs_r.body.value | size -%}
+          {%- if vs_r.rating.value < section.settings.min_rating or vs_len < section.settings.min_chars -%}{%- continue -%}{%- endif -%}
+          {%- assign vs_n = vs_n | plus: 1 -%}
+          {%- if vs_n > section.settings.limit -%}{%- break -%}{%- endif -%}
+          <div class="vr__slide">{%- render 'volt-review-card', review: vs_r, show_product: true -%}</div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Volt reviews strip (Shop)",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small text above", "default": "Verified Shop reviews" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Riders say" },
+    { "type": "metaobject_list", "id": "reviews", "label": "Reviews to feature", "metaobject_type": "volt_review", "limit": 12, "info": "Leave empty to show recent written reviews automatically." },
+    { "type": "range", "id": "min_rating", "label": "Auto mode: minimum stars", "min": 1, "max": 5, "step": 1, "default": 4 },
+    { "type": "range", "id": "limit", "label": "Auto mode: how many", "min": 3, "max": 12, "step": 1, "default": 8 },
+    { "type": "range", "id": "min_chars", "label": "Auto mode: skip reviews shorter than", "min": 0, "max": 80, "step": 5, "unit": "ch", "default": 25 }
+  ],
+  "presets": [{ "name": "Volt reviews strip (Shop)" }]
+}
+{% endschema %}

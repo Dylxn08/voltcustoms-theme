@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "178059039565a94443": {
+      "type": "apps",
+      "settings": {
+        "display_id": false,
+        "include_margins": true
+      }
+    },
+    "vfoot": {
+      "type": "volt-footer",
+      "settings": {
+        "show_signup": true,
+        "signup_title": "Join the ride.",
+        "signup_text": "Exclusive offers and the latest drops, straight to your inbox.",
+        "signup_button": "Sign up",
+        "policy_link": "shopify://policies/terms-of-service",
+        "instagram": "",
+        "tiktok": ""
+      }
+    },
+    "custom_liquid_8i64BX": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "custom_liquid": "<div style=\"text-align:center\"><a href=\"//www.dmca.com/Protection/Status.aspx?ID=cc325713-64eb-4e02-b766-3dca82e1e493\" title=\"DMCA.com Protection Status\" class=\"dmca-badge\"> <img src =\"https://images.dmca.com/Badges/dmca_protected_sml_120l.png?ID=cc325713-64eb-4e02-b766-3dca82e1e493\"  alt=\"DMCA.com Protection Status\" /></a></div><script src=\"https://images.dmca.com/Badges/DMCABadgeHelper.min.js\"> </script>",
+        "color_scheme": "background-1",
+        "padding_top": 0,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": [
+    "178059039565a94443",
+    "vfoot",
+    "custom_liquid_8i64BX"
+  ]
+}

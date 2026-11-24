@@ -1,0 +1,29 @@
+{%- assign col = section.settings.collection | default: collections['all'] -%}
+<section class='vs-best' id='vs-best-{{ section.id }}' style='--vs-cols:{{ section.settings.columns_desktop }};--vs-ratio:{{ section.settings.image_ratio }}'>
+  {%- if section.settings.eyebrow != blank -%}<p class='vs-best__eyebrow'>{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+  <h2 class='vs-h2 vs-best__title'>{{ section.settings.title | escape }}</h2>
+  {%- if section.settings.view_all_label != blank -%}<a class='vs-best__all' href='{{ col.url }}'>{{ section.settings.view_all_label | escape }}</a>{%- endif -%}
+  <div class='vs-best__grid'>
+    {%- for product in col.products limit: section.settings.count -%}
+      <a class='vs-prod' href='{{ product.url }}'>
+        <div class='vs-prod__img'>
+          {%- if product.featured_image -%}
+            {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 30vw, 50vw', alt: product.title }}
+          {%- else -%}
+            <span class='vs-prod__ph'>{{ product.title | split: '—' | first | escape }}</span>
+          {%- endif -%}
+          {%- if product.available == false -%}
+            <span class='vs-prod__tag'>Sold out</span>
+          {%- elsif product.compare_at_price > product.price -%}
+            {%- assign pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price -%}
+            <span class='vs-prod__tag'>Save {{ pct }}%</span>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.brand_label != blank -%}<div class='vs-prod__vendor'>{{ section.settings.brand_label | escape }}</div>{%- endif -%}
+        <div class='vs-prod__title'>{{ product.title | escape }}</div>
+        <div class='vs-prod__price'><span>{{ product.price | money }}</span>{%- if product.compare_at_price > product.price -%}<span class='vs-prod__was'>{{ product.compare_at_price | money }}</span>{%- endif -%}</div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}{"name":"Volt best sellers","settings":[{"type":"text","id":"eyebrow","label":"Small text above","default":"Most ordered this month"},{"type":"text","id":"title","label":"Title","default":"#1 Sellers"},{"type":"text","id":"view_all_label","label":"View all label","default":"View all"},{"type":"collection","id":"collection","label":"Collection"},{"type":"range","id":"count","label":"Products to show","min":2,"max":12,"step":1,"default":6},{"type":"select","id":"columns_desktop","label":"Columns on desktop","default":"3","options":[{"value":"3","label":"3"},{"value":"4","label":"4"}]},{"type":"select","id":"image_ratio","label":"Photo shape","default":"4 / 5","options":[{"value":"4 / 5","label":"Portrait 4:5"},{"value":"1 / 1","label":"Square"}]},{"type":"text","id":"brand_label","label":"Brand label above each name","default":"Volt Customs"}],"presets":[{"name":"Volt best sellers"}]}{% endschema %}

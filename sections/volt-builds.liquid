@@ -1,0 +1,17 @@
+<section class='vs-builds' id='vs-builds-{{ section.id }}'>
+  <div class='vs-builds__head'>
+    <h2 class='vs-h2 vs-builds__title'>{{ section.settings.heading_main | escape }}{% if section.settings.heading_dim != blank %} <span class='vs-dim'>{{ section.settings.heading_dim | escape }}</span>{% endif %}</h2>
+  </div>
+  <div class='vs-builds__track'>
+    {%- for block in section.blocks -%}
+      <div class='vs-builds__item' {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {%- assign b_alt = block.settings.caption | default: section.settings.heading_main | escape -%}
+          {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 800, 1000', sizes: '(min-width: 750px) 460px, 80vw', alt: b_alt }}
+        {%- endif -%}
+        {%- if block.settings.caption != blank -%}<div class='vs-builds__cap'>{{ block.settings.caption | escape }}</div>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}{"name":"Volt featured builds","settings":[{"type":"text","id":"heading_main","label":"Heading","default":"Featured builds - only possible"},{"type":"text","id":"heading_dim","label":"Heading (grey part)","default":"with Volt Customs"}],"blocks":[{"type":"item","name":"Photo","settings":[{"type":"image_picker","id":"image","label":"Image","info":"Portrait 3:4, a real bike with your parts on it."},{"type":"text","id":"caption","label":"Caption"}]}],"max_blocks":12,"presets":[{"name":"Volt featured builds"}]}{% endschema %}
