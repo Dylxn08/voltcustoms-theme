@@ -3,30 +3,155 @@
     "builder": {
       "type": "volt-build-your-setup",
       "blocks": {
-        "bike_super73": { "type": "bike", "settings": { "title": "Super73", "key": "super73" } },
-        "bike_surron": { "type": "bike", "settings": { "title": "Surron", "key": "surron" } },
-        "bike_talaria": { "type": "bike", "settings": { "title": "Talaria", "key": "talaria" } },
-        "bike_eride": { "type": "bike", "settings": { "title": "E-Ride", "key": "eride" } },
-        "bike_ridstar": { "type": "bike", "settings": { "title": "Ridstar", "key": "ridstar" } },
-        "bike_macfox": { "type": "bike", "settings": { "title": "Macfox", "key": "macfox" } },
-        "bike_yozma": { "type": "bike", "settings": { "title": "Yozma IN10", "key": "yozma" } },
-        "bike_tuttio": { "type": "bike", "settings": { "title": "Tuttio", "key": "tuttio" } },
-        "bike_heybike": { "type": "bike", "settings": { "title": "HeyBike", "key": "heybike" } },
-        "bike_other": { "type": "bike", "settings": { "title": "Other bike", "key": "other" } },
-        "step_lights": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Lights for your [bike]", "tag": "builder:lights", "pick_one": true } },
-        "step_addons": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Add-ons", "tag": "builder:addons", "pick_one": false } },
-        "step_upgrades": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Upgrades for your [bike]", "tag": "builder:upgrades", "pick_one": false } },
-        "step_style": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Style your [bike]", "tag": "builder:style", "pick_one": false } }
+        "bike_super73": {
+          "type": "bike",
+          "settings": {
+            "title": "Super73",
+            "key": "super73",
+            "models": "S · R · Z · ZX",
+            "outline": "moped"
+          }
+        },
+        "bike_surron": {
+          "type": "bike",
+          "settings": {
+            "title": "Surron",
+            "key": "surron",
+            "models": "LBX · Ultra Bee",
+            "outline": "emoto"
+          }
+        },
+        "bike_talaria": {
+          "type": "bike",
+          "settings": {
+            "title": "Talaria",
+            "key": "talaria",
+            "models": "XXX · Sting",
+            "outline": "emoto"
+          }
+        },
+        "bike_eride": {
+          "type": "bike",
+          "settings": {
+            "title": "E-Ride",
+            "key": "eride",
+            "models": "Pro S · Pro SS",
+            "outline": "emoto"
+          }
+        },
+        "bike_ridstar": {
+          "type": "bike",
+          "settings": {
+            "title": "Ridstar",
+            "key": "ridstar",
+            "models": "Q20",
+            "outline": "moped"
+          }
+        },
+        "bike_macfox": {
+          "type": "bike",
+          "settings": {
+            "title": "Macfox",
+            "key": "macfox",
+            "models": "X1S · X2",
+            "outline": "moped"
+          }
+        },
+        "bike_yozma": {
+          "type": "bike",
+          "settings": {
+            "title": "Yozma",
+            "key": "yozma",
+            "models": "IN10 · IN10 Pro",
+            "outline": "emoto"
+          }
+        },
+        "bike_tuttio": {
+          "type": "bike",
+          "settings": {
+            "title": "Tuttio",
+            "key": "tuttio",
+            "models": "Soleil 01",
+            "outline": "emoto"
+          }
+        },
+        "bike_heybike": {
+          "type": "bike",
+          "settings": {
+            "title": "HeyBike",
+            "key": "heybike",
+            "models": "Villain",
+            "outline": "emoto"
+          }
+        },
+        "bike_other": {
+          "type": "bike",
+          "settings": {
+            "title": "Other bike",
+            "key": "other",
+            "models": "Universal parts",
+            "outline": "emoto"
+          }
+        },
+        "step_lights": {
+          "type": "group",
+          "settings": {
+            "eyebrow": "Step [n]",
+            "title": "Lights for your [bike]",
+            "tag": "builder:lights",
+            "pick_one": true
+          }
+        },
+        "step_addons": {
+          "type": "group",
+          "settings": {
+            "eyebrow": "Step [n]",
+            "title": "Add-ons",
+            "tag": "builder:addons",
+            "pick_one": false
+          }
+        },
+        "step_upgrades": {
+          "type": "group",
+          "settings": {
+            "eyebrow": "Step [n]",
+            "title": "Upgrades for your [bike]",
+            "tag": "builder:upgrades",
+            "pick_one": false
+          }
+        },
+        "step_style": {
+          "type": "group",
+          "settings": {
+            "eyebrow": "Step [n]",
+            "title": "Style your [bike]",
+            "tag": "builder:style",
+            "pick_one": false
+          }
+        }
       },
       "block_order": [
-        "bike_super73", "bike_surron", "bike_talaria", "bike_eride", "bike_ridstar",
-        "bike_macfox", "bike_yozma", "bike_tuttio", "bike_heybike", "bike_other",
-        "step_lights", "step_addons", "step_upgrades", "step_style"
+        "bike_super73",
+        "bike_surron",
+        "bike_talaria",
+        "bike_eride",
+        "bike_ridstar",
+        "bike_macfox",
+        "bike_yozma",
+        "bike_tuttio",
+        "bike_heybike",
+        "bike_other",
+        "step_lights",
+        "step_addons",
+        "step_upgrades",
+        "step_style"
       ],
       "settings": {
         "preselect_product": "volt-customs-ignition-spinner"
       }
     }
   },
-  "order": ["builder"]
+  "order": [
+    "builder"
+  ]
 }
