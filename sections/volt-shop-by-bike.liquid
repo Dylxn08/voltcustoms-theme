@@ -1,0 +1,159 @@
+{%- comment -%}
+  Shop by bike: a swipeable row of bike cards. Each card opens the Build Your Setup page with that
+  bike already picked (?bike=<key>). Photos come from Theme settings > Bike photos (or the block).
+  "N parts fit" counts in-stock products tagged fits:<key> or fits:all (same tags as the builder).
+{%- endcomment -%}
+{{ 'volt-builder.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign link = section.settings.builder_link | default: '/pages/build-your-setup'
+  assign count_template = section.settings.bike_meta
+-%}
+
+<section class="vs-sbb" id="vs-sbb-{{ section.id }}">
+  <div class="vs-head">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="vs-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    <h2 class="vs-h2">{{ section.settings.title | escape }}</h2>
+    {%- if section.settings.text != blank -%}
+      <p class="vs-sbb__text">{{ section.settings.text | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="vs-sbb__wrap">
+    <div class="vb-bikes" data-vb-bikes>
+      {%- paginate collections.all.products by 250 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign bike_key = block.settings.key | default: block.settings.title | handleize | remove: '-' | downcase
+            assign fits_tag = 'fits:' | append: bike_key
+            assign pick_prefix = 'pick:' | append: bike_key | append: ':'
+            assign parts = 0
+            for product in collections.all.products
+              if product.available
+                assign fits = false
+                if product.tags contains 'fits:all'
+                  assign fits = true
+                elsif bike_key != 'other' and product.tags contains fits_tag
+                  assign fits = true
+                endif
+                if fits
+                  comment
+                    Same rule as the builder: with a pick:<bike>:<text> tag, only count the product
+                    if an in-stock option for this bike exists.
+                  endcomment
+                  for tag in product.tags
+                    assign tag_lower = tag | downcase
+                    assign tag_start = tag_lower | slice: 0, pick_prefix.size
+                    if tag_start == pick_prefix
+                      assign pick_text = tag_lower | remove_first: pick_prefix | strip
+                      assign fits = false
+                      for variant in product.variants
+                        assign v_title = variant.title | downcase
+                        if variant.available and v_title contains pick_text
+                          assign fits = true
+                          break
+                        endif
+                      endfor
+                    endif
+                  endfor
+                endif
+                if fits
+                  assign parts = parts | plus: 1
+                endif
+              endif
+            endfor
+            assign meta = ''
+            if count_template != blank and parts > 0
+              assign meta = count_template | replace: '[count]', parts
+            endif
+          -%}
+          {%- render 'volt-bike-card', block: block, index: forloop.index, link: link, meta: meta -%}
+        {%- endfor -%}
+      {%- endpaginate -%}
+    </div>
+    <div class="vb-bikes__nav">
+      <button type="button" class="vb-bikes__arrow" data-vb-bikes-prev aria-label="{{ section.settings.prev_label | escape }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      </button>
+      <span class="vb-bikes__count" data-vb-bikes-count aria-hidden="true">01 / {% if section.blocks.size < 10 %}0{% endif %}{{ section.blocks.size }}</span>
+      <button type="button" class="vb-bikes__arrow" data-vb-bikes-next aria-label="{{ section.settings.next_label | escape }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    {%- if section.settings.button_label != blank -%}
+      <div class="vs-sbb__cta">
+        <a class="vs-btn vs-btn--dark vs-btn--sm" href="{{ link }}">{{ section.settings.button_label | escape }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  (function () {
+    var s = document.getElementById('vs-sbb-{{ section.id }}');
+    if (!s) return;
+    var track = s.querySelector('[data-vb-bikes]');
+    var prev = s.querySelector('[data-vb-bikes-prev]');
+    var next = s.querySelector('[data-vb-bikes-next]');
+    var count = s.querySelector('[data-vb-bikes-count]');
+    var cards = track.querySelectorAll('.vb-bike');
+    var total = cards.length;
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    function step() { return cards[0] ? cards[0].getBoundingClientRect().width + 12 : track.clientWidth; }
+    function update() {
+      var i = Math.min(total, Math.round(track.scrollLeft / step()) + 1);
+      count.textContent = pad(i) + ' / ' + pad(total);
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    }
+    prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
+    track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Volt shop by bike",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small text above", "default": "Find your fit" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Shop by bike" },
+    { "type": "text", "id": "text", "label": "Text below title", "default": "Tap your bike to see every part that fits it." },
+    { "type": "url", "id": "builder_link", "label": "Builder page", "info": "The Build Your Setup page. Default: /pages/build-your-setup" },
+    { "type": "text", "id": "bike_meta", "label": "Line under each bike name", "default": "[count] parts fit", "info": "[count] is the number of in-stock products tagged for that bike. Leave empty to hide." },
+    { "type": "text", "id": "button_label", "label": "Button under the cards", "default": "Build your setup" },
+    { "type": "text", "id": "prev_label", "label": "Previous button (screen readers)", "default": "Previous bikes" },
+    { "type": "text", "id": "next_label", "label": "Next button (screen readers)", "default": "Next bikes" }
+  ],
+  "blocks": [
+    {
+      "type": "bike",
+      "name": "Bike",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Bike name", "default": "Bike" },
+        { "type": "text", "id": "models", "label": "Models (small text above the name)" },
+        { "type": "text", "id": "key", "label": "Tag key", "info": "Same key as in the builder, e.g. super73. Use 'other' for the catch-all." },
+        { "type": "image_picker", "id": "image", "label": "Photo (optional override)", "info": "Usually leave empty and set the photo once in Theme settings > Bike photos." },
+        { "type": "select", "id": "outline", "label": "Drawing shown when there's no photo", "default": "emoto", "options": [{ "value": "emoto", "label": "E-moto (Surron style)" }, { "value": "moped", "label": "Moped (Super73 style)" }] },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "Optional, e.g. Most popular" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Volt shop by bike",
+      "blocks": [
+        { "type": "bike", "settings": { "title": "Super73", "key": "super73", "models": "S · R · Z · ZX", "outline": "moped" } },
+        { "type": "bike", "settings": { "title": "Surron", "key": "surron", "models": "LBX · Ultra Bee", "outline": "emoto" } },
+        { "type": "bike", "settings": { "title": "Other bike", "key": "other", "models": "Universal parts", "outline": "emoto" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
