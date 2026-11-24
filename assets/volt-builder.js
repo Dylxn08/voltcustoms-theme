@@ -62,9 +62,68 @@
     });
 
     this.bind();
+    this.bikeMeta();
+    this.carousel();
     this.syncLayout();
     this.render();
   }
+
+  // Options of a product that fit a bike: none if it doesn't fit, else all (or the pick: ones).
+  VoltBuilder.prototype.allowedFor = function (item, key) {
+    var fits = item.fits.indexOf('all') !== -1 || (key !== 'other' && item.fits.indexOf(key) !== -1);
+    if (!fits) return [];
+    var pick = item.picks[key];
+    return item.variants.filter(function (v) {
+      return !pick || v.title.toLowerCase().indexOf(pick) !== -1;
+    });
+  };
+
+  // "[count] parts fit · from [price]" under each bike name, worked out from the live products.
+  VoltBuilder.prototype.bikeMeta = function () {
+    var self = this;
+    var template = this.data.msgBikeMeta || '';
+    if (!template) return;
+    this.root.querySelectorAll('[data-vb-bike]').forEach(function (radio) {
+      var meta = radio.parentNode.querySelector('[data-vb-bike-meta]');
+      if (!meta) return;
+      var count = 0;
+      var min = null;
+      self.items.forEach(function (item) {
+        var allowed = self.allowedFor(item, radio.value);
+        if (!allowed.length) return;
+        count += 1;
+        allowed.forEach(function (v) { if (min === null || v.price < min) min = v.price; });
+      });
+      meta.textContent = count ? template.replace('[count]', count).replace('[price]', self.format(min)) : '';
+    });
+  };
+
+  // Arrows and "01 / 10" counter for the bike cards.
+  VoltBuilder.prototype.carousel = function () {
+    var track = this.root.querySelector('[data-vb-bikes]');
+    var prev = this.root.querySelector('[data-vb-bikes-prev]');
+    var next = this.root.querySelector('[data-vb-bikes-next]');
+    var count = this.root.querySelector('[data-vb-bikes-count]');
+    if (!track) return;
+    var cards = track.querySelectorAll('.vb-bike');
+    var total = cards.length;
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    function step() {
+      var c = cards[0];
+      return c ? c.getBoundingClientRect().width + 12 : track.clientWidth;
+    }
+    function update() {
+      var i = Math.min(total, Math.round(track.scrollLeft / step()) + 1);
+      if (count) count.textContent = pad(i) + ' / ' + pad(total);
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    }
+    if (prev) prev.addEventListener('click', function () { track.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
+    track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  };
 
   VoltBuilder.prototype.format = function (cents) {
     var amount = (Number(cents) || 0) / 100;
@@ -143,13 +202,10 @@
     var key = bike.key;
     var firstChange = !this.bike;
     this.bike = bike;
+    this.root.classList.add('has-bike');
 
     this.items.forEach(function (item) {
-      var fits = item.fits.indexOf('all') !== -1 || (key !== 'other' && item.fits.indexOf(key) !== -1);
-      var pick = item.picks[key];
-      item.allowed = !fits ? [] : item.variants.filter(function (v) {
-        return !pick || v.title.toLowerCase().indexOf(pick) !== -1;
-      });
+      item.allowed = self.allowedFor(item, key);
       var show = item.allowed.length > 0;
       item.el.hidden = !show;
       if (!show) {
