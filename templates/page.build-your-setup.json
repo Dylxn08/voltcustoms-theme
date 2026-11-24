@@ -3,50 +3,29 @@
     "builder": {
       "type": "volt-build-your-setup",
       "blocks": {
-        "bike_super73": { "type": "bike", "settings": { "title": "Super73" } },
-        "bike_surron": { "type": "bike", "settings": { "title": "Surron" } },
-        "bike_ridstar": { "type": "bike", "settings": { "title": "Ridstar" } },
-        "bike_macfox": { "type": "bike", "settings": { "title": "Macfox" } },
-        "bike_other": { "type": "bike", "settings": { "title": "Other" } },
-        "light_v1": {
-          "type": "light",
-          "settings": { "product": "battery-powered-baja", "fits": "", "badge": "Best seller", "preselect": false }
-        },
-        "light_v1_lite": {
-          "type": "light",
-          "settings": { "product": "volt-v1-lite", "fits": "", "badge": "", "preselect": false }
-        },
-        "light_rocklight": {
-          "type": "light",
-          "settings": { "product": "rocklight-v1", "fits": "", "badge": "", "preselect": false }
-        },
-        "addon_horn": {
-          "type": "addon",
-          "settings": { "product": "volt-v1-battery-horn", "fits": "", "badge": "", "preselect": false }
-        },
-        "addon_spinner": {
-          "type": "addon",
-          "settings": { "product": "volt-customs-ignition-spinner", "fits": "", "badge": "Free Nov 27-30", "preselect": true }
-        },
-        "addon_tires": {
-          "type": "addon",
-          "settings": { "product": "supermoto-tires-for-super73-ridstar-macfox", "fits": "Super73, Ridstar, Macfox", "badge": "", "preselect": false }
-        }
+        "bike_super73": { "type": "bike", "settings": { "title": "Super73", "key": "super73" } },
+        "bike_surron": { "type": "bike", "settings": { "title": "Surron", "key": "surron" } },
+        "bike_talaria": { "type": "bike", "settings": { "title": "Talaria", "key": "talaria" } },
+        "bike_eride": { "type": "bike", "settings": { "title": "E-Ride", "key": "eride" } },
+        "bike_ridstar": { "type": "bike", "settings": { "title": "Ridstar", "key": "ridstar" } },
+        "bike_macfox": { "type": "bike", "settings": { "title": "Macfox", "key": "macfox" } },
+        "bike_yozma": { "type": "bike", "settings": { "title": "Yozma IN10", "key": "yozma" } },
+        "bike_tuttio": { "type": "bike", "settings": { "title": "Tuttio", "key": "tuttio" } },
+        "bike_heybike": { "type": "bike", "settings": { "title": "HeyBike", "key": "heybike" } },
+        "bike_other": { "type": "bike", "settings": { "title": "Other bike", "key": "other" } },
+        "step_lights": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Lights for your [bike]", "tag": "builder:lights", "pick_one": true } },
+        "step_addons": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Add-ons", "tag": "builder:addons", "pick_one": false } },
+        "step_upgrades": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Upgrades for your [bike]", "tag": "builder:upgrades", "pick_one": false } },
+        "step_style": { "type": "group", "settings": { "eyebrow": "Step [n]", "title": "Style your [bike]", "tag": "builder:style", "pick_one": false } }
       },
       "block_order": [
-        "bike_super73",
-        "bike_surron",
-        "bike_ridstar",
-        "bike_macfox",
-        "bike_other",
-        "light_v1",
-        "light_v1_lite",
-        "light_rocklight",
-        "addon_horn",
-        "addon_spinner",
-        "addon_tires"
+        "bike_super73", "bike_surron", "bike_talaria", "bike_eride", "bike_ridstar",
+        "bike_macfox", "bike_yozma", "bike_tuttio", "bike_heybike", "bike_other",
+        "step_lights", "step_addons", "step_upgrades", "step_style"
       ],
-      "settings": {}
+      "settings": {
+        "preselect_product": "volt-customs-ignition-spinner"
+      }
     }
   },
   "order": ["builder"]
