@@ -23,6 +23,8 @@
 .vb-step__title{font-family:var(--vs-bebas);font-size:40px;line-height:1;text-transform:uppercase}
 .vb-step__empty{margin:0;padding:16px;border:1px dashed var(--vs-line,#dadada);border-radius:var(--vb-radius);color:var(--vs-mute,#6b6f76);font-size:15px}
 .vb-step__empty[hidden]{display:none}
+.vb-step[hidden],.vb-prompt[hidden],.vb-item__variant[hidden]{display:none}
+.vb-prompt{margin:16px 0 0;padding:18px 16px;border:1px dashed var(--vs-line,#dadada);border-radius:var(--vb-radius);text-align:center;font-family:var(--vs-mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--vs-mute,#6b6f76)}
 
 /* Bike tiles */
 .vb-bikes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -50,25 +52,20 @@
 .vb-item__media{width:96px;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#efefef}
 .vb-item__media img{width:100%;height:100%;object-fit:cover;display:block}
 .vb-item__info{display:flex;flex-direction:column;gap:4px;min-width:0}
-.vb-item__badge{align-self:flex-start;background:var(--vs-ink,#0a0a0a);color:#fff;font-family:var(--vs-mono);font-size:11px;font-weight:700;letter-spacing:.12em;padding:4px 8px;border-radius:6px;text-transform:uppercase}
 .vb-item__title{font-size:16px;font-weight:600;line-height:1.3}
 .vb-item__price{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;font-family:var(--vs-bebas);font-size:26px;line-height:1}
 .vb-item__was{font-family:var(--vs-sans);font-size:14px;color:var(--vs-mute,#6b6f76);text-decoration:line-through}
-.vb-item__meta{font-size:13px;line-height:1.35;color:var(--vs-mute,#6b6f76)}
 .vb-item__stock{font-size:13px;font-weight:600;color:#a4161a}
 .vb-item__stock:empty{display:none}
 /* Check mark: circle for radio, square for checkbox */
 .vb-item__check{width:28px;height:28px;border:2px solid var(--vs-ink,#0a0a0a);border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
-.vb-item--addon .vb-item__check{border-radius:8px}
+.vb-item--any .vb-item__check{border-radius:8px}
 .vb-item__check svg{width:16px;height:16px;opacity:0;color:#fff}
 .vb-item.is-selected .vb-item__check{background:var(--vs-ink,#0a0a0a)}
 .vb-item.is-selected .vb-item__check svg{opacity:1}
 .vb-item__variant{padding:0 12px 12px}
 .vb-item__variant label{display:block;font-family:var(--vs-mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--vs-mute,#6b6f76);margin-bottom:6px}
 .vb-item__variant select{width:100%;min-height:48px;padding:0 14px;border:1px solid var(--vs-line,#dadada);border-radius:10px;background:#fff;font-family:var(--vs-sans);font-size:16px;color:inherit}
-.vb-item.is-unavailable{opacity:.55}
-.vb-item.is-unavailable .vb-item__pick{cursor:not-allowed}
-.vb-item.is-unavailable .vb-item__check{border-style:dashed}
 
 /* Summary */
 .vb-sum{background:#fff;border:2px solid var(--vs-ink,#0a0a0a);border-radius:var(--vb-radius);padding:16px}

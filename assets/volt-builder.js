@@ -2,13 +2,26 @@
 (function () {
   'use strict';
 
+  function parsePicks(str) {
+    // "super73|3 Pin Female||ridstar|3 Pin Male||" -> { super73: '3 pin female', ... }
+    var out = {};
+    (str || '').split('||').forEach(function (pair) {
+      var i = pair.indexOf('|');
+      if (i > 0) out[pair.slice(0, i).toLowerCase()] = pair.slice(i + 1).toLowerCase();
+    });
+    return out;
+  }
+
   function VoltBuilder(root) {
+    var self = this;
     this.root = root;
     this.data = root.dataset;
     this.bike = null;
     this.busy = false;
     this.form = root.querySelector('[data-vb-form]');
     this.bikeStep = root.querySelector('.vb-step');
+    this.prompt = root.querySelector('[data-vb-prompt]');
+    this.steps = Array.prototype.slice.call(root.querySelectorAll('[data-vb-step]'));
     this.list = root.querySelector('[data-vb-list]');
     this.listEmpty = root.querySelector('[data-vb-list-empty]');
     this.toggle = root.querySelector('[data-vb-toggle]');
@@ -27,18 +40,25 @@
       var json = el.querySelector('[data-vb-variants]');
       var variants = [];
       try { variants = JSON.parse(json ? json.textContent : '[]'); } catch (e) { variants = []; }
+      var input = el.querySelector('[data-vb-input]');
       return {
         el: el,
-        kind: el.dataset.kind,
         title: el.dataset.title,
         fits: (el.dataset.fits || '').split(',').filter(Boolean),
-        input: el.querySelector('[data-vb-input]'),
+        picks: parsePicks(el.dataset.picks),
+        input: input,
+        preselect: input.hasAttribute('data-vb-preselect'),
         select: el.querySelector('[data-vb-variant]'),
         img: el.querySelector('.vb-item__img'),
+        imgSrc: null,
         price: el.querySelector('[data-vb-price]'),
         stock: el.querySelector('[data-vb-stock]'),
-        variants: variants
+        variants: variants.filter(function (v) { return v.available; }),
+        allowed: []
       };
+    });
+    this.items.forEach(function (item) {
+      if (item.img) item.imgSrc = { src: item.img.getAttribute('src'), srcset: item.img.getAttribute('srcset') };
     });
 
     this.bind();
@@ -53,17 +73,14 @@
 
   VoltBuilder.prototype.variantFor = function (item) {
     var id = Number(item.input.value);
-    for (var i = 0; i < item.variants.length; i++) {
-      if (item.variants[i].id === id) return item.variants[i];
+    for (var i = 0; i < item.allowed.length; i++) {
+      if (item.allowed[i].id === id) return item.allowed[i];
     }
     return null;
   };
 
-  // A product can be picked only if its current variant is in stock.
   VoltBuilder.prototype.isSelected = function (item) {
-    if (!item.input.checked || item.input.disabled || item.el.hidden) return false;
-    var v = this.variantFor(item);
-    return !!(v && v.available);
+    return !!(item.input.checked && !item.el.hidden && this.variantFor(item));
   };
 
   VoltBuilder.prototype.bind = function () {
@@ -71,22 +88,32 @@
 
     this.root.querySelectorAll('[data-vb-bike]').forEach(function (radio) {
       radio.addEventListener('change', function () {
-        self.bike = { key: radio.value, title: radio.dataset.title };
-        self.applyFit();
-        self.clearStatus();
-        self.render();
+        self.setBike({ key: radio.value, title: radio.dataset.title });
       });
     });
 
     this.items.forEach(function (item) {
-      if (!item.input) return;
+      // "Pick one" steps: tapping the chosen product again unselects it.
+      if (item.input.type === 'radio') {
+        var wasChecked = false;
+        item.el.querySelector('.vb-item__pick').addEventListener('pointerdown', function () { wasChecked = item.input.checked; });
+        item.input.addEventListener('click', function () {
+          if (wasChecked) {
+            item.input.checked = false;
+            wasChecked = false;
+            self.clearStatus();
+            self.render();
+          }
+        });
+        item.input.addEventListener('keydown', function () { wasChecked = false; });
+      }
       item.input.addEventListener('change', function () {
         self.clearStatus();
         self.render();
       });
       if (item.select) {
         item.select.addEventListener('change', function () {
-          self.setVariant(item, Number(item.select.value));
+          self.setVariant(item, Number(item.select.value), true);
         });
       }
     });
@@ -110,40 +137,96 @@
     if (this.details) this.details.open = this.mq ? this.mq.matches : true;
   };
 
-  VoltBuilder.prototype.setVariant = function (item, id) {
-    var v = null;
-    for (var i = 0; i < item.variants.length; i++) {
-      if (item.variants[i].id === id) v = item.variants[i];
+  // Show only what fits the chosen bike, and only the options that fit it.
+  VoltBuilder.prototype.setBike = function (bike) {
+    var self = this;
+    var key = bike.key;
+    var firstChange = !this.bike;
+    this.bike = bike;
+
+    this.items.forEach(function (item) {
+      var fits = item.fits.indexOf('all') !== -1 || (key !== 'other' && item.fits.indexOf(key) !== -1);
+      var pick = item.picks[key];
+      item.allowed = !fits ? [] : item.variants.filter(function (v) {
+        return !pick || v.title.toLowerCase().indexOf(pick) !== -1;
+      });
+      var show = item.allowed.length > 0;
+      item.el.hidden = !show;
+      if (!show) {
+        item.input.checked = false;
+        return;
+      }
+      if (item.select) self.fillOptions(item);
+      var keep = self.variantFor(item) ? Number(item.input.value) : item.allowed[0].id;
+      self.setVariant(item, keep, false);
+      if (firstChange && item.preselect) item.input.checked = true;
+    });
+
+    var n = 1;
+    this.steps.forEach(function (step) {
+      var visible = step.querySelectorAll('[data-vb-item]:not([hidden])').length > 0;
+      step.hidden = !visible;
+      if (!visible) return;
+      n += 1;
+      var num = step.querySelector('[data-vb-step-num]');
+      var title = step.querySelector('[data-vb-step-title]');
+      if (num) num.textContent = (num.dataset.template || '').replace('[n]', n);
+      if (title) title.textContent = (title.dataset.template || '').replace('[bike]', bike.title);
+    });
+    if (this.prompt) this.prompt.hidden = true;
+
+    this.clearStatus();
+    this.render();
+    if (firstChange && this.steps.length) {
+      var firstVisible = this.steps.filter(function (s) { return !s.hidden; })[0];
+      if (firstVisible && firstVisible.getBoundingClientRect().top > window.innerHeight * 0.75) {
+        firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
-    if (!v || !v.available) return;
+  };
+
+  VoltBuilder.prototype.fillOptions = function (item) {
+    var current = Number(item.select.value);
+    item.select.textContent = '';
+    item.allowed.forEach(function (v) {
+      var o = document.createElement('option');
+      o.value = String(v.id);
+      o.textContent = v.title;
+      if (v.id === current) o.selected = true;
+      item.select.appendChild(o);
+    });
+    // One option left: nothing to choose, so hide the dropdown.
+    item.select.closest('.vb-item__variant').hidden = item.allowed.length < 2;
+  };
+
+  VoltBuilder.prototype.setVariant = function (item, id, userChose) {
+    var v = null;
+    for (var i = 0; i < item.allowed.length; i++) {
+      if (item.allowed[i].id === id) v = item.allowed[i];
+    }
+    if (!v) return;
 
     item.input.value = String(v.id);
+    if (item.select) item.select.value = String(v.id);
     var html = '<span>' + this.format(v.price) + '</span>';
     if (v.compare > v.price) html += '<s class="vb-item__was">' + this.format(v.compare) + '</s>';
     item.price.innerHTML = html;
     item.stock.textContent = v.low ? (this.data.msgLow || '').replace('[count]', v.low) : '';
-    if (item.img && v.img) {
-      item.img.src = v.img;
-      item.img.srcset = v.img + ' 200w, ' + v.img2x + ' 400w';
+    if (item.img) {
+      if (v.img) {
+        item.img.src = v.img;
+        item.img.srcset = v.img + ' 200w, ' + v.img2x + ' 400w';
+      } else if (item.imgSrc) {
+        item.img.src = item.imgSrc.src;
+        if (item.imgSrc.srcset) item.img.srcset = item.imgSrc.srcset;
+      }
     }
-    // Choosing an option means you want that product.
-    if (!item.input.checked && !item.el.hidden) item.input.checked = true;
-    this.clearStatus();
-    this.render();
-  };
-
-  VoltBuilder.prototype.applyFit = function () {
-    var key = this.bike && this.bike.key;
-    this.items.forEach(function (item) {
-      var fits = !key || item.fits.length === 0 || item.fits.indexOf(key) !== -1;
-      item.el.hidden = !fits;
-      if (!fits && item.input) item.input.checked = false;
-    });
-    this.root.querySelectorAll('[data-vb-step]').forEach(function (step) {
-      var empty = step.querySelector('[data-vb-empty]');
-      var visible = step.querySelectorAll('[data-vb-item]:not([hidden])').length;
-      if (empty) empty.hidden = visible > 0;
-    });
+    if (userChose) {
+      // Choosing an option means you want that product.
+      if (!item.input.checked) item.input.checked = true;
+      this.clearStatus();
+      this.render();
+    }
   };
 
   VoltBuilder.prototype.selection = function () {
