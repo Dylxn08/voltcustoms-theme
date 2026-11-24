@@ -43,7 +43,8 @@
 .vb-item{position:relative;border:2px solid var(--vs-line,#dadada);border-radius:var(--vb-radius);background:#fff;transition:border-color .15s}
 .vb-item[hidden]{display:none}
 .vb-item.is-selected{border-color:var(--vs-ink,#0a0a0a)}
-.vb-item:focus-within{outline:3px solid var(--vs-ink,#0a0a0a);outline-offset:3px}
+/* Keyboard focus only, so a tap doesn't draw a second border */
+.vb-item:has(:focus-visible){outline:3px solid var(--vs-ink,#0a0a0a);outline-offset:3px}
 .vb-item__pick{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px;cursor:pointer;min-height:120px}
 .vb-item__pick input{position:absolute;opacity:0;width:1px;height:1px}
 .vb-item__media{width:96px;aspect-ratio:1;border-radius:10px;overflow:hidden;background:#efefef}
