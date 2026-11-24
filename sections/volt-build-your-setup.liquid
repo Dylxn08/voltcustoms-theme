@@ -20,6 +20,7 @@
 {%- liquid
   assign bikes = section.blocks | where: 'type', 'bike'
   assign groups = section.blocks | where: 'type', 'group'
+  assign bike_input_name = 'vb-bike-' | append: section.id
   assign source = section.settings.collection | default: collections.all
   assign heading_tag = 'h2'
   if section.settings.heading_is_h1
@@ -69,43 +70,7 @@
         </legend>
         <div class="vb-bikes" data-vb-bikes>
           {%- for block in bikes -%}
-            {%- assign bike_key = block.settings.key | default: block.settings.title | handleize | remove: '-' | downcase -%}
-            <label class="vb-bike" {{ block.shopify_attributes }}>
-              <input type="radio" name="vb-bike-{{ section.id }}" value="{{ bike_key }}" data-vb-bike data-title="{{ block.settings.title | escape }}">
-              <span class="vb-bike__card">
-                {%- if block.settings.image != blank -%}
-                  {%- assign focal = 'object-position:' | append: block.settings.image.presentation.focal_point -%}
-                  {{
-                    block.settings.image
-                    | image_url: width: 900
-                    | image_tag:
-                      class: 'vb-bike__img',
-                      loading: 'lazy',
-                      widths: '360, 540, 720, 900',
-                      sizes: '(min-width: 990px) 220px, (min-width: 750px) 25vw, 72vw',
-                      alt: '',
-                      style: focal
-                  }}
-                {%- else -%}
-                  {%- render 'volt-bike-outline', style: block.settings.outline -%}
-                {%- endif -%}
-                <span class="vb-bike__shade" aria-hidden="true"></span>
-                <span class="vb-bike__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                {%- if block.settings.badge != blank -%}
-                  <span class="vb-bike__badge">{{ block.settings.badge | escape }}</span>
-                {%- endif -%}
-                <span class="vb-bike__check" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
-                </span>
-                <span class="vb-bike__text">
-                  {%- if block.settings.models != blank -%}
-                    <span class="vb-bike__models">{{ block.settings.models | escape }}</span>
-                  {%- endif -%}
-                  <span class="vb-bike__name">{{ block.settings.title | escape }}</span>
-                  <span class="vb-bike__meta" data-vb-bike-meta></span>
-                </span>
-              </span>
-            </label>
+            {%- render 'volt-bike-card', block: block, index: forloop.index, input_name: bike_input_name -%}
           {%- endfor -%}
         </div>
         <div class="vb-bikes__nav">
@@ -221,7 +186,7 @@
         { "type": "text", "id": "title", "label": "Bike name", "default": "Bike" },
         { "type": "text", "id": "models", "label": "Models (small text above the name)", "info": "E.g. Light Bee · Ultra Bee" },
         { "type": "text", "id": "key", "label": "Tag key", "info": "Matches product tags fits:<key> and pick:<key>:... e.g. super73. Use 'other' for a catch-all that only shows fits:all products." },
-        { "type": "image_picker", "id": "image", "label": "Photo", "info": "Portrait 4:5. A side-on shot of the bike on a dark background works best; the name sits on the bottom third. Use your own photos or ones you have permission to use." },
+        { "type": "image_picker", "id": "image", "label": "Photo (optional override)", "info": "Usually leave empty and set the photo once in Theme settings > Bike photos. Use this only for a bike that has no slot there." },
         { "type": "select", "id": "outline", "label": "Drawing shown when there's no photo", "default": "emoto", "options": [{ "value": "emoto", "label": "E-moto (Surron style)" }, { "value": "moped", "label": "Moped (Super73 style)" }] },
         { "type": "text", "id": "badge", "label": "Badge", "info": "Optional, e.g. Most popular" }
       ]

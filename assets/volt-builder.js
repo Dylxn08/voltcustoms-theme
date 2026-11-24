@@ -66,7 +66,26 @@
     this.carousel();
     this.syncLayout();
     this.render();
+    this.fromUrl();
   }
+
+  // Coming from the homepage "Shop by bike" row: ?bike=super73 picks that bike straight away.
+  VoltBuilder.prototype.fromUrl = function () {
+    var key = null;
+    try { key = new URLSearchParams(window.location.search).get('bike'); } catch (e) { key = null; }
+    if (!key) return;
+    key = key.toLowerCase();
+    var radio = null;
+    this.root.querySelectorAll('[data-vb-bike]').forEach(function (r) { if (r.value === key) radio = r; });
+    if (!radio) return;
+    radio.checked = true;
+    var track = this.root.querySelector('[data-vb-bikes]');
+    if (track) {
+      var card = radio.closest('.vb-bike');
+      track.scrollLeft += card.getBoundingClientRect().left - track.getBoundingClientRect().left - 16;
+    }
+    this.setBike({ key: radio.value, title: radio.dataset.title });
+  };
 
   // Options of a product that fit a bike: none if it doesn't fit, else all (or the pick: ones).
   VoltBuilder.prototype.allowedFor = function (item, key) {

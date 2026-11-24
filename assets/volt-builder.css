@@ -58,6 +58,20 @@
 .vb-bikes__arrow:disabled{opacity:.3;cursor:default}
 @media(prefers-reduced-motion:reduce){.vb-bike__card{transition:none}}
 
+/* Shop by bike (homepage): same cards, as links into the builder */
+.vs-sbb{padding:72px 0 56px}
+.vs-sbb__text{margin:12px auto 0;max-width:520px;font-size:16px;line-height:1.5;color:var(--vs-mute,#6b6f76)}
+.vs-sbb__wrap{max-width:1400px;margin:32px auto 0;padding:0 16px;box-sizing:border-box}
+.vs-sbb__cta{margin-top:24px;text-align:center}
+.vb-bike--link{color:inherit;text-decoration:none}
+.vb-bike--link .vb-bike__check{border-color:#fff}
+.vb-bike--link .vb-bike__check svg{opacity:1}
+.vb-bike--link:focus-visible{outline:none}
+.vb-bike--link:focus-visible .vb-bike__card{box-shadow:0 0 0 3px #fff,0 0 0 6px var(--vs-ink,#0a0a0a)}
+@media(hover:hover) and (pointer:fine){.vb-bike--link:hover .vb-bike__check{background:#fff;color:var(--vs-ink,#0a0a0a)}}
+@media(min-width:990px){.vs-sbb__wrap{padding:0 24px}.vs-sbb .vb-bike{flex-basis:calc((100% - 36px) / 4)}}
+@media(max-width:749px){.vs-sbb{padding:56px 0 40px}.vs-sbb__wrap{margin-top:24px}}
+
 /* Product cards */
 .vb-items{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--vb-gap)}
 @media(min-width:750px){.vb-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
