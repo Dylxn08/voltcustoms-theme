@@ -1,0 +1,33 @@
+{%- comment -%}
+  Simple line drawing of a bike, used on a Build Your Setup bike card when no photo is set.
+  Accepts:
+  - style {String} 'emoto' (dirt-bike style e-moto) or 'moped' (Super73-style)
+{%- endcomment -%}
+<svg class="vb-bike__outline" viewBox="0 0 240 150" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- if style == 'moped' -%}
+    <circle cx="52" cy="108" r="30" stroke-width="9"/>
+    <circle cx="52" cy="108" r="12" stroke-width="2"/>
+    <circle cx="190" cy="108" r="30" stroke-width="9"/>
+    <circle cx="190" cy="108" r="12" stroke-width="2"/>
+    <path d="M52 108 L92 84 L150 86 L190 108" stroke-width="5"/>
+    <rect x="92" y="66" width="56" height="20" rx="4" stroke-width="4"/>
+    <path d="M70 58 H146" stroke-width="9"/>
+    <path d="M108 58 L100 84" stroke-width="4"/>
+    <path d="M190 108 L176 50" stroke-width="5"/>
+    <path d="M168 44 L184 42 M176 50 L172 40" stroke-width="4"/>
+    <path d="M196 74 C204 66 210 66 214 72" stroke-width="3"/>
+  {%- else -%}
+    <circle cx="52" cy="110" r="30" stroke-width="5"/>
+    <circle cx="52" cy="110" r="5" stroke-width="2"/>
+    <circle cx="192" cy="110" r="30" stroke-width="5"/>
+    <circle cx="192" cy="110" r="5" stroke-width="2"/>
+    <path d="M52 110 L104 96" stroke-width="5"/>
+    <path d="M98 64 L142 56 L150 84 L108 96 Z" stroke-width="4"/>
+    <path d="M78 56 C98 50 124 48 146 50" stroke-width="7"/>
+    <path d="M78 56 L62 72 L52 110" stroke-width="3"/>
+    <path d="M192 110 L166 38" stroke-width="5"/>
+    <path d="M156 32 L176 30 M166 38 L162 28" stroke-width="4"/>
+    <path d="M160 62 C176 54 194 58 208 70" stroke-width="3"/>
+    <path d="M150 50 L164 44" stroke-width="3"/>
+  {%- endif -%}
+</svg>
