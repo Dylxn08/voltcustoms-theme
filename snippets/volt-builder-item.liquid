@@ -3,68 +3,64 @@
 
   Accepts:
   - product {Product} the product to show
-  - block {Block} the light/add-on block that picked it
-  - kind {String} 'light' (radio, pick one) or 'addon' (checkbox, pick any)
+  - group_id {String} id of the step (block) it belongs to
+  - pick_one {Boolean} radio (pick one per step) instead of checkbox
   - section_id {String}
+  - preselect {Boolean} selected when the page loads
   - low_stock {Number} show the low-stock note at or below this count; 0 turns it off
   - low_stock_text {String} low-stock note, [count] is replaced with the number left
-  - fits_prefix {String} word shown before the bike list, e.g. "Fits"
 
-  Prices, images and stock all come from the live product. Sold-out variants are
-  rendered as disabled options; a product with nothing in stock can't be selected.
+  Fitment comes from product tags (edit them in Shopify admin > Products):
+  - fits:<bike key>          e.g. fits:super73, or fits:all for every bike
+  - pick:<bike key>:<text>   only offer options whose name contains <text> for that bike,
+                             e.g. pick:super73:3 Pin Female For Super73
+  Prices, images and stock come from the live product.
 {%- endcomment -%}
 {%- liquid
-  assign input_type = 'radio'
-  if kind == 'addon'
-    assign input_type = 'checkbox'
-  endif
-  assign input_id = 'vb-' | append: section_id | append: '-' | append: block.id
+  assign input_id = 'vb-' | append: section_id | append: '-' | append: group_id | append: '-' | append: product.id
   assign current = product.selected_or_first_available_variant
   assign has_choice = true
   if product.has_only_default_variant
     assign has_choice = false
   endif
 
-  assign fits_keys = ''
-  assign fits_label = block.settings.fits | strip
-  if fits_label != blank
-    assign fits_parts = fits_label | split: ','
-    for part in fits_parts
-      assign key = part | strip | handleize | remove: '-'
-      if key != blank
-        assign fits_keys = fits_keys | append: key | append: ','
-      endif
-    endfor
-  endif
-
-  assign preselect = false
-  if block.settings.preselect and product.available
-    assign preselect = true
-  endif
+  assign fits = ''
+  assign picks = ''
+  for tag in product.tags
+    assign tag_start = tag | slice: 0, 5
+    if tag_start == 'fits:'
+      assign key = tag | remove_first: 'fits:' | downcase | strip
+      assign fits = fits | append: key | append: ','
+    elsif tag_start == 'pick:'
+      assign rest = tag | remove_first: 'pick:'
+      assign pick_bike = rest | split: ':' | first | downcase | strip
+      assign pick_prefix = rest | split: ':' | first | append: ':'
+      assign pick_text = rest | remove_first: pick_prefix | strip
+      assign picks = picks | append: pick_bike | append: '|' | append: pick_text | append: '||'
+    endif
+  endfor
 -%}
 <div
-  class="vb-item vb-item--{{ kind }}{% unless product.available %} is-unavailable{% endunless %}{% if preselect %} is-selected{% endif %}"
+  class="vb-item vb-item--{% if pick_one %}one{% else %}any{% endif %}{% if preselect %} is-selected{% endif %}"
   data-vb-item
-  data-kind="{{ kind }}"
-  data-fits="{{ fits_keys }}"
+  data-fits="{{ fits }}"
+  data-picks="{{ picks | escape }}"
   data-title="{{ product.title | escape }}"
-  {{ block.shopify_attributes }}
+  hidden
 >
   <label class="vb-item__pick" for="{{ input_id }}">
     <input
-      type="{{ input_type }}"
+      type="{% if pick_one %}radio{% else %}checkbox{% endif %}"
       id="{{ input_id }}"
-      name="{% if kind == 'light' %}vb-light-{{ section_id }}{% else %}vb-addon-{{ block.id }}{% endif %}"
+      name="{% if pick_one %}vb-{{ section_id }}-{{ group_id }}{% else %}{{ input_id }}{% endif %}"
       value="{{ current.id }}"
       data-vb-input
-      {% if preselect %}checked{% endif %}
-      {% unless product.available %}disabled aria-describedby="{{ input_id }}-stock"{% endunless %}
+      {% if preselect %}checked data-vb-preselect{% endif %}
     >
     <span class="vb-item__media">
-      {%- assign image = current.featured_image | default: product.featured_image -%}
-      {%- if image -%}
+      {%- if product.featured_image -%}
         {{
-          image
+          product.featured_image
           | image_url: width: 400
           | image_tag:
             loading: 'lazy',
@@ -76,9 +72,6 @@
       {%- endif -%}
     </span>
     <span class="vb-item__info">
-      {%- if block.settings.badge != blank -%}
-        <span class="vb-item__badge">{{ block.settings.badge | escape }}</span>
-      {%- endif -%}
       <span class="vb-item__title">{{ product.title | escape }}</span>
       <span class="vb-item__price" data-vb-price>
         <span>{{ current.price | money }}</span>
@@ -86,13 +79,8 @@
           <s class="vb-item__was">{{ current.compare_at_price | money }}</s>
         {%- endif -%}
       </span>
-      {%- if fits_label != blank -%}
-        <span class="vb-item__meta">{{ fits_prefix | escape }} {{ fits_label | escape }}</span>
-      {%- endif -%}
-      <span class="vb-item__stock" id="{{ input_id }}-stock" data-vb-stock>
-        {%- if product.available == false -%}
-          {{ 'products.product.sold_out' | t }}
-        {%- elsif low_stock > 0 and current.inventory_management == 'shopify' and current.inventory_policy == 'deny' and current.inventory_quantity > 0 and current.inventory_quantity <= low_stock -%}
+      <span class="vb-item__stock" data-vb-stock>
+        {%- if low_stock > 0 and current.inventory_management == 'shopify' and current.inventory_policy == 'deny' and current.inventory_quantity > 0 and current.inventory_quantity <= low_stock -%}
           {{ low_stock_text | replace: '[count]', current.inventory_quantity | escape }}
         {%- endif -%}
       </span>
@@ -102,19 +90,14 @@
     </span>
   </label>
 
-  {%- if has_choice and product.available -%}
+  {%- if has_choice -%}
     <div class="vb-item__variant">
       <label for="{{ input_id }}-variant">{{ product.options | join: ' / ' | escape }}</label>
       <select id="{{ input_id }}-variant" data-vb-variant>
         {%- for variant in product.variants -%}
-          <option
-            value="{{ variant.id }}"
-            {% if variant.id == current.id %}selected{% endif %}
-            {% unless variant.available %}disabled{% endunless %}
-          >
-            {{ variant.title | escape }}
-            {%- unless variant.available %} - {{ 'products.product.sold_out' | t }}{% endunless -%}
-          </option>
+          {%- if variant.available -%}
+            <option value="{{ variant.id }}" {% if variant.id == current.id %}selected{% endif %}>{{ variant.title | escape }}</option>
+          {%- endif -%}
         {%- endfor -%}
       </select>
     </div>
@@ -128,18 +111,8 @@
           if low_stock > 0 and variant.inventory_management == 'shopify' and variant.inventory_policy == 'deny' and variant.inventory_quantity > 0 and variant.inventory_quantity <= low_stock
             assign v_low = variant.inventory_quantity
           endif
-          assign v_image = variant.featured_image | default: product.featured_image
         -%}
-        {
-          "id": {{ variant.id | json }},
-          "title": {{ variant.title | json }},
-          "price": {{ variant.price | json }},
-          "compare": {{ variant.compare_at_price | default: 0 | json }},
-          "available": {{ variant.available | json }},
-          "low": {{ v_low | json }},
-          "img": {% if v_image %}{{ v_image | image_url: width: 200 | json }}{% else %}null{% endif %},
-          "img2x": {% if v_image %}{{ v_image | image_url: width: 400 | json }}{% else %}null{% endif %}
-        }{% unless forloop.last %},{% endunless %}
+        {"id":{{ variant.id | json }},"title":{{ variant.title | json }},"price":{{ variant.price | json }},"compare":{{ variant.compare_at_price | default: 0 | json }},"available":{{ variant.available | json }},"low":{{ v_low | json }}{% if variant.featured_image %},"img":{{ variant.featured_image | image_url: width: 200 | json }},"img2x":{{ variant.featured_image | image_url: width: 400 | json }}{% endif %}}{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     ]
   </script>
