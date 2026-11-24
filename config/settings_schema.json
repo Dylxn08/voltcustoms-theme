@@ -2803,5 +2803,26 @@
         "info": "If empty, a link to all products will be applied."
       }
     ]
+  },
+  {
+    "name": "Black Friday banner",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Shown at the top of the Build Your Setup page. This banner is text only: prices and discounts come from Shopify admin > Discounts."
+      },
+      {
+        "type": "checkbox",
+        "id": "bf_banner_enabled",
+        "label": "Show Black Friday banner",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "bf_banner_text",
+        "label": "Banner text",
+        "default": "25% off everything Nov 27-30, plus a free Ignition Spinner with every order."
+      }
+    ]
   }
 ]
