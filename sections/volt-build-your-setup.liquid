@@ -42,6 +42,7 @@
   data-msg-error="{{ section.settings.msg_error | escape }}"
   data-msg-items="{{ section.settings.summary_toggle | escape }}"
   data-msg-low="{{ section.settings.low_stock_text | escape }}"
+  data-msg-bike-meta="{{ section.settings.bike_meta | escape }}"
 >
   {%- if settings.bf_banner_enabled and settings.bf_banner_text != blank -%}
     <div class="vb-bf">
@@ -66,25 +67,55 @@
           <span class="vb-step__num">{{ section.settings.step1_eyebrow | escape }}</span>
           <span class="vb-step__title">{{ section.settings.step1_title | escape }}</span>
         </legend>
-        <div class="vb-bikes">
+        <div class="vb-bikes" data-vb-bikes>
           {%- for block in bikes -%}
             {%- assign bike_key = block.settings.key | default: block.settings.title | handleize | remove: '-' | downcase -%}
             <label class="vb-bike" {{ block.shopify_attributes }}>
               <input type="radio" name="vb-bike-{{ section.id }}" value="{{ bike_key }}" data-vb-bike data-title="{{ block.settings.title | escape }}">
-              <span class="vb-bike__body{% if block.settings.image == blank %} vb-bike__body--text{% endif %}">
+              <span class="vb-bike__card">
                 {%- if block.settings.image != blank -%}
-                  <span class="vb-bike__media">
-                    {{
-                      block.settings.image
-                      | image_url: width: 480
-                      | image_tag: loading: 'lazy', widths: '240, 480', sizes: '(min-width: 750px) 200px, 50vw', alt: ''
-                    }}
-                  </span>
+                  {%- assign focal = 'object-position:' | append: block.settings.image.presentation.focal_point -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 900
+                    | image_tag:
+                      class: 'vb-bike__img',
+                      loading: 'lazy',
+                      widths: '360, 540, 720, 900',
+                      sizes: '(min-width: 990px) 220px, (min-width: 750px) 25vw, 72vw',
+                      alt: '',
+                      style: focal
+                  }}
+                {%- else -%}
+                  {%- render 'volt-bike-outline', style: block.settings.outline -%}
                 {%- endif -%}
-                <span class="vb-bike__name">{{ block.settings.title | escape }}</span>
+                <span class="vb-bike__shade" aria-hidden="true"></span>
+                <span class="vb-bike__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                {%- if block.settings.badge != blank -%}
+                  <span class="vb-bike__badge">{{ block.settings.badge | escape }}</span>
+                {%- endif -%}
+                <span class="vb-bike__check" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+                </span>
+                <span class="vb-bike__text">
+                  {%- if block.settings.models != blank -%}
+                    <span class="vb-bike__models">{{ block.settings.models | escape }}</span>
+                  {%- endif -%}
+                  <span class="vb-bike__name">{{ block.settings.title | escape }}</span>
+                  <span class="vb-bike__meta" data-vb-bike-meta></span>
+                </span>
               </span>
             </label>
           {%- endfor -%}
+        </div>
+        <div class="vb-bikes__nav">
+          <button type="button" class="vb-bikes__arrow" data-vb-bikes-prev aria-label="{{ section.settings.prev_label | escape }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          </button>
+          <span class="vb-bikes__count" data-vb-bikes-count aria-hidden="true">01 / {% if bikes.size < 10 %}0{% endif %}{{ bikes.size }}</span>
+          <button type="button" class="vb-bikes__arrow" data-vb-bikes-next aria-label="{{ section.settings.next_label | escape }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
         </div>
         <p class="vb-prompt" data-vb-prompt>{{ section.settings.prompt_text | escape }}</p>
       </fieldset>
@@ -165,6 +196,9 @@
     { "type": "text", "id": "step1_eyebrow", "label": "Small text", "default": "Step 1" },
     { "type": "text", "id": "step1_title", "label": "Title", "default": "Pick your bike" },
     { "type": "text", "id": "prompt_text", "label": "Before a bike is picked", "default": "Pick your bike to see everything that fits it." },
+    { "type": "text", "id": "bike_meta", "label": "Line under each bike name", "default": "[count] parts fit", "info": "[count] is the number of products that fit; you can also use [price] for the lowest price. Leave empty to hide." },
+    { "type": "text", "id": "prev_label", "label": "Previous button (screen readers)", "default": "Previous bikes" },
+    { "type": "text", "id": "next_label", "label": "Next button (screen readers)", "default": "Next bikes" },
     { "type": "header", "content": "Summary" },
     { "type": "text", "id": "summary_title", "label": "Title", "default": "Your setup" },
     { "type": "text", "id": "summary_toggle", "label": "Item count on phones", "default": "Your setup ([count] items)", "info": "[count] is replaced with the number of items." },
@@ -185,8 +219,11 @@
       "name": "Bike",
       "settings": [
         { "type": "text", "id": "title", "label": "Bike name", "default": "Bike" },
+        { "type": "text", "id": "models", "label": "Models (small text above the name)", "info": "E.g. Light Bee · Ultra Bee" },
         { "type": "text", "id": "key", "label": "Tag key", "info": "Matches product tags fits:<key> and pick:<key>:... e.g. super73. Use 'other' for a catch-all that only shows fits:all products." },
-        { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. 4:3 works best. Without one, the name is shown on a tile." }
+        { "type": "image_picker", "id": "image", "label": "Photo", "info": "Portrait 4:5. A side-on shot of the bike on a dark background works best; the name sits on the bottom third. Use your own photos or ones you have permission to use." },
+        { "type": "select", "id": "outline", "label": "Drawing shown when there's no photo", "default": "emoto", "options": [{ "value": "emoto", "label": "E-moto (Surron style)" }, { "value": "moped", "label": "Moped (Super73 style)" }] },
+        { "type": "text", "id": "badge", "label": "Badge", "info": "Optional, e.g. Most popular" }
       ]
     },
     {
