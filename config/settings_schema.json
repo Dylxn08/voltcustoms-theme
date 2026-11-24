@@ -2824,5 +2824,64 @@
         "default": "25% off everything Nov 27-30, plus a free Ignition Spinner with every order."
       }
     ]
+  },
+  {
+    "name": "Bike photos",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Used on the bike cards in Shop by bike (homepage) and Build Your Setup. Portrait 4:5 works best: a side-on shot of the bike on a dark background, bike in the top two thirds (the name sits on the bottom third). Use your own photos or ones you have permission to use. Without a photo the card shows a line drawing."
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_super73",
+        "label": "Super73"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_surron",
+        "label": "Surron"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_talaria",
+        "label": "Talaria"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_eride",
+        "label": "E-Ride"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_ridstar",
+        "label": "Ridstar"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_macfox",
+        "label": "Macfox"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_yozma",
+        "label": "Yozma"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_tuttio",
+        "label": "Tuttio"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_heybike",
+        "label": "HeyBike"
+      },
+      {
+        "type": "image_picker",
+        "id": "bike_photo_other",
+        "label": "Other bike"
+      }
+    ]
   }
 ]
